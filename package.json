@@ -2,11 +2,11 @@
   "name": "team-sync-client",
   "version": "0.0.0",
   "scripts": {
-    "ng": "ng",
-    "start": "ng serve",
+    "setup": "pnpm install && pnpm add -D eslint prettier eslint-config-prettier @typescript-eslint/eslint-plugin @typescript-eslint/parser @angular-eslint/eslint-plugin @angular-eslint/eslint-plugin-template @angular-eslint/template-parser @angular-eslint/builder",
+    "lint": "eslint \"{src,projects}/**/*.{ts,html}\" --fix",
+    "format": "prettier --write \"**/*.{ts,js,json,md,html,scss}\"",
+    "dev": "ng serve",
     "build": "ng build",
-    "watch": "ng build --watch --configuration development",
-    "test": "ng test",
     "serve:ssr:team-sync-client": "node dist/team-sync-client/server/server.mjs"
   },
   "prettier": {
