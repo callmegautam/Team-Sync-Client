@@ -33,21 +33,21 @@ export const routes: Routes = [
       },
     ],
   },
-  {
-    path: 'dashboard',
-    // add Dashboard layout component
-    children: [
-      {
-        path: '',
-        // add Dashboard page component
-      },
-      {
-        path: 'tasks',
-        // add Tasks page component
-      },
-      // and so on...
-    ],
-  },
+  // {
+  //   path: 'dashboard',
+  //   // add Dashboard layout component
+  //   children: [
+  //     {
+  //       path: '',
+  //       // add Dashboard page component
+  //     },
+  //     {
+  //       path: 'tasks',
+  //       // add Tasks page component
+  //     },
+  //     // and so on...
+  //   ],
+  // },
   {
     path: '**',
     redirectTo: '',
