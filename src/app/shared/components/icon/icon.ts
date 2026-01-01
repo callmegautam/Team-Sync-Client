@@ -6,7 +6,7 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
   selector: 'app-icon',
   standalone: true,
   imports: [CommonModule],
-  template: `<span [innerHTML]="path" style="display: contents"></span>`
+  templateUrl: './icon.html'
 })
 export class IconComponent {
   @Input() name: string = '';

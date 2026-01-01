@@ -1,13 +1,13 @@
 
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { IconComponent } from '../../shared/components/icon/icon.component';
+import { IconComponent } from '../../shared/components/icon/icon';
 
 @Component({
     selector: 'app-dashboard',
     standalone: true,
     imports: [CommonModule, IconComponent],
-    templateUrl: './dashboard.component.html',
+    templateUrl: './dashboard.html',
 })
 export class DashboardComponent {
     stats = [
