@@ -1,0 +1,33 @@
+<div class="w-full h-[94%] flex flex-col p-5 items-center bg-amber-100">
+  <h1 class="font-sans text-2xl font-bold">Login</h1>
+  <p class="text-sm text-gray-400">one solution for all your business CRM problems</p>
+
+  <form [formGroup]="loginForm" (ngSubmit)="handleLogin()" class="flex flex-col m-10">
+    <label for="" class="text-sm text-gray-400">Email</label>
+    <input
+      type="email"
+      formControlName="email"
+      class="border border-gray-300 rounded-lg"
+      required
+    />
+    @if (loginForm.get('email')?.touched && loginForm.get('email')?.invalid) {
+      @if (loginForm.get('email')?.errors?.['required']) {
+        <span>email is required</span>
+      } @else if (loginForm.get('email')?.errors?.['email']) {
+        <span>invalid email</span>
+      }
+    }
+    <label for="" class="text-sm text-gray-400">Password</label>
+    <input type="password" formControlName="password" required />
+    @if (loginForm.get('password')?.touched && loginForm.get('password')?.invalid) {
+      @if (loginForm.get('password')?.errors?.['required']) {
+        <span>password is required</span>
+      } @else if (
+        loginForm.get('password')?.errors?.['minlength'] ||
+        loginForm.get('password')?.errors?.['maxlength']
+      ) {
+        <span>Password must be between 6 character to 20 character</span>
+      }
+    }
+  </form>
+</div>

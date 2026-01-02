@@ -12,37 +12,39 @@ import { Routes } from '@angular/router';
 export const routes: Routes = [
   {
     path: '',
+    loadComponent: () => import('./pages/client/home/home').then((m) => m.Home),
     // add Home page component
   },
   {
     path: '',
-    // add Auth layout component
+    loadComponent: () => import('./core/layout/auth-layout/auth-layout').then((m) => m.AuthLayout),
     children: [
       {
         path: 'login',
-        // add Login page component
+        loadComponent: () => import('./pages/client/auth/login/login').then((m) => m.Login),
       },
       {
         path: 'register',
-        // add Register page component
+        loadComponent: () =>
+          import('./pages/client/auth/register/register').then((m) => m.Register),
       },
     ],
   },
-  {
-    path: 'dashboard',
-    // add Dashboard layout component
-    children: [
-      {
-        path: '',
-        // add Dashboard page component
-      },
-      {
-        path: 'tasks',
-        // add Tasks page component
-      },
-      // and so on...
-    ],
-  },
+  // {
+  //   path: 'dashboard',
+  //   // add Dashboard layout component
+  //   children: [
+  //     {
+  //       path: '',
+  //       // add Dashboard page component
+  //     },
+  //     {
+  //       path: 'tasks',
+  //       // add Tasks page component
+  //     },
+  //     // and so on...
+  //   ],
+  // },
   {
     path: '**',
     redirectTo: '',
