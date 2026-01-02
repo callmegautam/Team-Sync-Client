@@ -1,33 +1,83 @@
-<div class="w-full h-[94%] flex flex-col p-5 items-center bg-amber-100">
+<div class="w-full h-[94%] flex flex-col p-5 items-center">
   <h1 class="font-sans text-2xl font-bold">Login</h1>
   <p class="text-sm text-gray-400">one solution for all your business CRM problems</p>
 
-  <form [formGroup]="loginForm" (ngSubmit)="handleLogin()" class="flex flex-col m-10">
-    <label for="" class="text-sm text-gray-400">Email</label>
-    <input
-      type="email"
-      formControlName="email"
-      class="border border-gray-300 rounded-lg"
-      required
-    />
+  <form
+    [formGroup]="loginForm"
+    (ngSubmit)="handleLogin()"
+    class="flex flex-col w-3/4 p-3 m-5 h-4/5 text-primary"
+  >
+    <label for="" class="pb-2 text-sm text-gray-400">Email</label>
+    <div class="relative w-full">
+      <z-icon
+        zType="mail"
+        class="absolute text-gray-400 -translate-y-1/2 pointer-events-none left-1 top-1/2"
+      ></z-icon>
+
+      <input
+        z-input
+        placeholder="Enter your email"
+        type="email"
+        formControlName="email"
+        zSize="default"
+        class="w-full pl-8 text-secondary-foreground"
+      />
+    </div>
+
     @if (loginForm.get('email')?.touched && loginForm.get('email')?.invalid) {
       @if (loginForm.get('email')?.errors?.['required']) {
-        <span>email is required</span>
+        <span class="text-destructive">email is required</span>
       } @else if (loginForm.get('email')?.errors?.['email']) {
-        <span>invalid email</span>
+        <span class="text-destructive">invalid email</span>
       }
     }
-    <label for="" class="text-sm text-gray-400">Password</label>
-    <input type="password" formControlName="password" required />
+    <label for="" class="pt-2 pb-2 text-sm text-gray-400">Password</label>
+    <div class="relative w-full">
+      <lucide-icon
+        name="lock"
+        class="absolute w-4 h-4 text-gray-400 -translate-y-1/2 pointer-events-none left-1 top-1/2"
+      ></lucide-icon>
+      <input
+        z-input
+        placeholder="Enter your password"
+        type="password"
+        formControlName="password"
+        zSize="default"
+        class="w-full pl-8 text-secondary-foreground"
+      />
+      <z-icon
+        zType="eye"
+        class="absolute text-gray-400 -translate-y-1/2 pointer-events-none right-1 top-1/2"
+      ></z-icon>
+    </div>
+
     @if (loginForm.get('password')?.touched && loginForm.get('password')?.invalid) {
       @if (loginForm.get('password')?.errors?.['required']) {
-        <span>password is required</span>
+        <span class="text-destructive">password is required</span>
       } @else if (
         loginForm.get('password')?.errors?.['minlength'] ||
         loginForm.get('password')?.errors?.['maxlength']
       ) {
-        <span>Password must be between 6 character to 20 character</span>
+        <span class="text-destructive">Password must be between 6 character to 20 character</span>
       }
     }
+    <div class="flex items-center justify-between pt-3 pb-4">
+      <span z-checkbox zSize="sm" class="text-secondary-foreground"> Remember me </span>
+
+      <span class="text-sm cursor-pointer text-muted-foreground hover:underline">
+        Forget password?
+      </span>
+    </div>
+    <button z-button>Login</button>
+    <div class="flex items-center pt-4">
+      <span class="flex-1 border-t border-muted-foreground/30"></span>
+      <span class="px-3 text-xs font-medium text-muted-foreground"> Or</span>
+      <span class="flex-1 border-t border-muted-foreground/30"></span>
+    </div>
+
+    <div class="flex justify-center gap-1 pt-4 text-sm text-muted-foreground">
+      <span>Don't have an account?</span>
+      <a href="/signup" class="font-medium underline text-secondary-foreground"> Sign up </a>
+    </div>
   </form>
 </div>

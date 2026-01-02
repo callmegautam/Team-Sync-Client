@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { LucideAngularModule, Home, Search, User, Trash } from 'lucide-angular';
+import { LucideAngularModule, Home, Search, User, Trash, Lock } from 'lucide-angular';
 
 @NgModule({
   imports: [
@@ -9,6 +9,7 @@ import { LucideAngularModule, Home, Search, User, Trash } from 'lucide-angular';
       Search,
       User,
       Trash,
+      Lock,
     }),
   ],
 
