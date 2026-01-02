@@ -16,20 +16,17 @@ export const routes: Routes = [
     // add Home page component
   },
   {
-    path: 'auth',
+    path: '',
     loadComponent: () => import('./core/layout/auth-layout/auth-layout').then((m) => m.AuthLayout),
-    // add Auth layout component
     children: [
       {
         path: 'login',
         loadComponent: () => import('./pages/client/auth/login/login').then((m) => m.Login),
-        // add Login page component
       },
       {
         path: 'register',
         loadComponent: () =>
           import('./pages/client/auth/register/register').then((m) => m.Register),
-        // add Register page component
       },
     ],
   },
