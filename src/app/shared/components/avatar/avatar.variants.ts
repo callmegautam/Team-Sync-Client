@@ -5,6 +5,7 @@ export const avatarVariants = cva(
   {
     variants: {
       zSize: {
+        sx: 'size-7',
         sm: 'size-8',
         default: 'size-10',
         md: 'size-12',

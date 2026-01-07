@@ -32,21 +32,37 @@ export const routes: Routes = [
       },
     ],
   },
-  // {
-  //   path: 'dashboard',
-  //   // add Dashboard layout component
-  //   children: [
-  //     {
-  //       path: '',
-  //       // add Dashboard page component
-  //     },
-  //     {
-  //       path: 'tasks',
-  //       // add Tasks page component
-  //     },
-  //     // and so on...
-  //   ],
-  // },
+  {
+    path: 'dashboard',
+    loadComponent: () =>
+      import('./core/layout/dashboard-layout/dashboard-layout').then((m) => m.DashboardLayout),
+    children: [
+      {
+        path: '',
+        loadComponent: () =>
+          import('./pages/client/dashboard/dashboard/dashboard').then((m) => m.Dashboard),
+      },
+      {
+        path: 'tasks',
+        loadComponent: () => import('./pages/client/dashboard/tasks/tasks').then((m) => m.Tasks),
+      },
+      {
+        path: 'members',
+        loadComponent: () =>
+          import('./pages/client/dashboard/members/members').then((m) => m.Members),
+      },
+      {
+        path: 'settings',
+        loadComponent: () =>
+          import('./pages/client/dashboard/settings/settings').then((m) => m.Settings),
+      },
+      {
+        path: 'projects',
+        loadComponent: () =>
+          import('./pages/client/dashboard/projects/projects').then((m) => m.Projects),
+      },
+    ],
+  },
   {
     path: '**',
     redirectTo: '',
