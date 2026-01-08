@@ -20,7 +20,7 @@ export const routes: Routes = [
   },
   {
     path: '',
-    loadComponent: () => import('./core/layout/auth-layout/auth-layout').then((m) => m.AuthLayout),
+    loadComponent: () => import('./layout/auth-layout/auth-layout').then((m) => m.AuthLayout),
     children: [
       {
         path: 'login',
@@ -37,7 +37,7 @@ export const routes: Routes = [
   {
     path: 'dashboard',
     loadComponent: () =>
-      import('./core/layout/dashboard-layout/dashboard-layout').then((m) => m.DashboardLayout),
+      import('./layout/dashboard-layout/dashboard-layout').then((m) => m.DashboardLayout),
     children: [
       {
         path: '',
