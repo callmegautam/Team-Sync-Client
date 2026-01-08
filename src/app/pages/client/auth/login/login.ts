@@ -13,6 +13,9 @@ import { ZardCheckboxComponent } from '@/shared/components/checkbox/checkbox.com
 import { ZardButtonComponent } from '@/shared/components/button/button.component';
 import { Router, RouterLink } from '@angular/router';
 import { Authservice } from '@/shared/services/auth/authservice';
+import { UserStore } from '@/stores/user.store';
+import { toast } from 'ngx-sonner';
+import { ErrorHandlerService } from '@/shared/services/error-handler/error.handler.service';
 
 @Component({
   selector: 'app-login',
@@ -32,6 +35,8 @@ export class Login {
   constructor(
     private authservice: Authservice,
     private router: Router,
+    private userstore: UserStore,
+    private errorhandleservice: ErrorHandlerService,
   ) {}
 
   loginForm = new FormGroup({
@@ -51,14 +56,13 @@ export class Login {
 
     this.authservice.login(email, password).subscribe({
       next: (res) => {
-        console.log('Data', res.data);
+        toast.success('Successful Login!!!');
+        this.userstore.setstore(res.data);
         this.router.navigate(['/dashboard']);
       },
       error: (err) => {
-        console.log('Error', err.error.error);
-        // 400 -- Something went wrong
-        // 404 -- Invalid email and password
-        // 500 -- Internal server error
+        const errorMessage = this.errorhandleservice.handleStatus(err.status);
+        toast.error(errorMessage);
       },
     });
   }

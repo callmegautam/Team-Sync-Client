@@ -2,6 +2,13 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
+export type RegisterType = {
+  name: string;
+  email: string;
+  username: string;
+  password: string;
+};
+
 @Injectable({
   providedIn: 'root',
 })
@@ -16,7 +23,7 @@ export class Authservice {
       password,
     });
   }
-  register(name: string, username: string, email: string, password: string): Observable<any> {
-    return this.http.post(`${this.api}/register`, { name, username, email, password });
+  register(data: RegisterType): Observable<any> {
+    return this.http.post(`${this.api}/register`, data);
   }
 }

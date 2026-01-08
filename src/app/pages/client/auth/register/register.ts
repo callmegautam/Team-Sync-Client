@@ -3,7 +3,9 @@ import { ZardButtonComponent } from '@/shared/components/button/button.component
 import { ZardIconComponent } from '@/shared/components/icon/icon.component';
 import { IconsModule } from '@/shared/components/icons';
 import { ZardInputDirective } from '@/shared/components/input/input.directive';
-import { Authservice } from '@/shared/services/auth/authservice';
+import { Authservice, RegisterType } from '@/shared/services/auth/authservice';
+import { ErrorHandlerService } from '@/shared/services/error-handler/error.handler.service';
+import { UserStore } from '@/stores/user.store';
 import { Component } from '@angular/core';
 import {
   FormsModule,
@@ -12,7 +14,8 @@ import {
   FormControl,
   Validators,
 } from '@angular/forms';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
+import { toast } from 'ngx-sonner';
 
 @Component({
   selector: 'app-register',
@@ -28,7 +31,12 @@ import { RouterLink } from '@angular/router';
   styleUrl: './register.css',
 })
 export class Register {
-  constructor(private authservice: Authservice) {}
+  constructor(
+    private authservice: Authservice,
+    private router: Router,
+    private userstore: UserStore,
+    private errorhandleservice: ErrorHandlerService,
+  ) {}
 
   registerForm = new FormGroup({
     name: new FormControl('', [
@@ -51,18 +59,23 @@ export class Register {
     ]),
   });
   handleRegister() {
-    const { name, username, email, password } = this.registerForm.value;
-    if (!name || !username || !email || !password) {
+    const data = this.registerForm.value as RegisterType;
+    if (!data.name || !data.username || !data.email || !data.password) {
       alert('please enter all fields');
       return;
     }
-    this.authservice.register(name, username, email, password).subscribe({
-      next: (res) => {
-        console.log(res.data);
-      },
-      error: (err) => {
-        console.log(err.error);
-      },
-    });
+
+    if (data.name && data.username && data.email && data.password)
+      this.authservice.register(data).subscribe({
+        next: (res) => {
+          toast.success('Register sucessfully !!!');
+          this.userstore.setstore(res.data);
+          this.router.navigate(['/dashboard']);
+        },
+        error: (err) => {
+          const errorMessage = this.errorhandleservice.handleStatus(err.status);
+          toast.error(errorMessage);
+        },
+      });
   }
 }
