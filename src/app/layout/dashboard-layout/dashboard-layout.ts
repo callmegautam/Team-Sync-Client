@@ -11,17 +11,18 @@ import { LayoutComponent } from '@/shared/components/layout/layout.component';
 import {
   SidebarComponent,
   SidebarGroupComponent,
-  SidebarGroupLabelComponent,
 } from '@/shared/components/layout/sidebar.component';
-import { ZardMenuLabelComponent } from '@/shared/components/menu/menu-label.component';
 import { ZardMenuImports } from '@/shared/components/menu/menu.imports';
 import { ZardSkeletonComponent } from '@/shared/components/skeleton/skeleton.component';
-import { ZardTooltipComponent, ZardTooltipDirective } from '@/shared/components/tooltip/tooltip';
-import { Component, signal } from '@angular/core';
+import { ZardTooltipDirective } from '@/shared/components/tooltip/tooltip';
+import { Component, inject, signal } from '@angular/core';
 import { ContentComponent } from '@/shared/components/layout/content.component';
 import { ZardIcon } from '@/shared/components/icon/icons';
-import { LucideIcons, LucideAngularModule } from 'lucide-angular';
+import { LucideAngularModule } from 'lucide-angular';
 import { CommonModule } from '@angular/common';
+import { ɵInternalFormsSharedModule } from '@angular/forms';
+import { ZardDialogService } from '@/shared/components/dialog/dialog.service';
+import { CreateWorkspace } from '@/shared/custom-components/workspace/create.workspace/create.workspace';
 
 interface MenuItem {
   icon: ZardIcon;
@@ -47,11 +48,13 @@ interface MenuItem {
     ContentComponent,
     ZardBreadcrumbItemComponent,
     LucideAngularModule,
+    ɵInternalFormsSharedModule,
   ],
   templateUrl: './dashboard-layout.html',
   styleUrl: './dashboard-layout.css',
 })
 export class DashboardLayout {
+  private dialogService = inject(ZardDialogService);
   readonly sidebarCollapsed = signal(false);
 
   workspaceMenuItems: MenuItem[] = [
@@ -84,5 +87,17 @@ export class DashboardLayout {
 
   onCollapsedChange(collapsed: boolean) {
     this.sidebarCollapsed.set(collapsed);
+  }
+
+  openWorkspace() {
+    this.dialogService.create({
+      zTitle: 'Create Workspace',
+      zDescription: 'create your own workspace',
+      zContent: CreateWorkspace,
+      zWidth: '425px',
+      zOkText: null,
+      zCancelText: null,
+      zClosable: true,
+    });
   }
 }
