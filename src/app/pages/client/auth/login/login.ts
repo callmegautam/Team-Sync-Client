@@ -33,10 +33,10 @@ import { ErrorHandlerService } from '@/shared/services/error-handler/error.handl
 })
 export class Login {
   constructor(
-    private authservice: Authservice,
+    private authService: Authservice,
     private router: Router,
-    private userstore: UserStore,
-    private errorhandleservice: ErrorHandlerService,
+    private userStore: UserStore,
+    private errorHandleService: ErrorHandlerService,
   ) {}
 
   loginForm = new FormGroup({
@@ -55,14 +55,14 @@ export class Login {
       return;
     }
 
-    this.authservice.login(email, password).subscribe({
+    this.authService.login(email, password).subscribe({
       next: (res) => {
         toast.success('Successful Login!!!');
-        this.userstore.setstore(res.data);
+        this.userStore.setStore(res.data);
         this.router.navigate(['/dashboard']);
       },
       error: (err) => {
-        const errorMessage = this.errorhandleservice.handleStatus(err.status);
+        const errorMessage = this.errorHandleService.handleStatus(err.status);
         toast.error(errorMessage);
       },
     });

@@ -32,10 +32,10 @@ import { toast } from 'ngx-sonner';
 })
 export class Register {
   constructor(
-    private authservice: Authservice,
+    private authService: Authservice,
     private router: Router,
-    private userstore: UserStore,
-    private errorhandleservice: ErrorHandlerService,
+    private userStore: UserStore,
+    private errorHandleService: ErrorHandlerService,
   ) {}
 
   registerForm = new FormGroup({
@@ -66,14 +66,14 @@ export class Register {
     }
 
     if (data.name && data.username && data.email && data.password)
-      this.authservice.register(data).subscribe({
+      this.authService.register(data).subscribe({
         next: (res) => {
           toast.success('Register sucessfully !!!');
-          this.userstore.setstore(res.data);
+          this.userStore.setStore(res.data);
           this.router.navigate(['/dashboard']);
         },
         error: (err) => {
-          const errorMessage = this.errorhandleservice.handleStatus(err.status);
+          const errorMessage = this.errorHandleService.handleStatus(err.status);
           toast.error(errorMessage);
         },
       });

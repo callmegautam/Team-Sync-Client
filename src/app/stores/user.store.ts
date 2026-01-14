@@ -21,7 +21,7 @@ export class UserStore {
     avtarurl: '',
   });
 
-  setstore(data: User) {
+  setStore(data: User) {
     this.user.set(data);
   }
 }
