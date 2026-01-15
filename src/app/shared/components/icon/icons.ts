@@ -83,6 +83,7 @@ import {
   TextAlignStart,
   Trash2,
   TriangleAlert,
+  Twitter,
   Underline,
   User,
   UserPlus,
