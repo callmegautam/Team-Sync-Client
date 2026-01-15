@@ -9,7 +9,6 @@ import {
   signal,
 } from '@angular/core';
 
-import { ZardIconComponent } from '@/shared/components/icon';
 import {
   selectItemIconVariants,
   selectItemVariants,
@@ -17,6 +16,7 @@ import {
   type ZardSelectSizeVariants,
 } from '@/shared/components/select/select.variants';
 import { mergeClasses, noopFn, transform } from '@/shared/utils/merge-classes';
+import { ZardIconComponent } from '../icon/icon.component';
 
 // Interface to avoid circular dependency
 interface SelectHost {
@@ -80,7 +80,9 @@ export class ZardSelectItemComponent {
 
   protected readonly strokeWidth = computed(() => (this.zMode() === 'compact' ? 3 : 2));
 
-  protected readonly isSelected = computed(() => this.select()?.selectedValue().includes(this.zValue()) ?? false);
+  protected readonly isSelected = computed(
+    () => this.select()?.selectedValue().includes(this.zValue()) ?? false,
+  );
 
   setSelectHost(selectHost: SelectHost) {
     this.select.set(selectHost);
