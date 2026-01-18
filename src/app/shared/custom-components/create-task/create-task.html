@@ -1,0 +1,105 @@
+<form [formGroup]="createTask" (ngSubmit)="handleTask()" class="flex flex-col">
+  <label for="" class="pb-2 pt-1">Title</label>
+  <input
+    z-input
+    type="text"
+    placeholder="title of task"
+    formControlName="taskTitle"
+    zSize="lg"
+    class="text-secondary-foreground text-sm"
+  />
+  @if (createTask.get('taskTitle')?.touched && createTask.get('taskTitle')?.invalid) {
+    @if (createTask.get('taskTitle')?.errors?.['required']) {
+      <span class="text-destructive"> task title is required</span>
+    } @else if (
+      createTask.get('taskTitle')?.errors?.['minlength'] ||
+      createTask.get('taskTitle')?.errors?.['maxlength']
+    ) {
+      <span class="text-destructive">title can be of 2-50 characters</span>
+    }
+  }
+
+  <label for="" class="pb-2 pt-1">Description</label>
+  <textarea
+    z-input
+    rows="5"
+    placeholder="description of workspace"
+    formControlName="description"
+    class="w-full text-secondary-foreground"
+  ></textarea>
+
+  @if (createTask.get('description')?.errors?.['maxlength']) {
+    <span class="text-destructive">description can be of 255 characters</span>
+  }
+
+  <label for="">Project</label>
+  <z-select id="project" formControlName="project" placeholder="Select project">
+    @for (project of projects; track project.value) {
+      <z-select-item [zValue]="project.value">{{ project.label }}</z-select-item>
+    }
+  </z-select>
+
+  @if (createTask.get('project')?.touched && createTask.get('project')?.invalid) {
+    @if (createTask.get('project')?.errors?.['required']) {
+      <span class="text-destructive"> select the project</span>
+    }
+  }
+
+  <label for="">Assigned to</label>
+  <z-select id="assignedTo" formControlName="assignedTo" placeholder="Select assignedTo">
+    @for (assignedTo of members; track assignedTo.value) {
+      <z-select-item [zValue]="assignedTo.value">{{ assignedTo.label }}</z-select-item>
+    }
+  </z-select>
+  @if (createTask.get('assignedTo')?.touched && createTask.get('assignedTo')?.invalid) {
+    @if (createTask.get('assignedTo')?.errors?.['required']) {
+      <span class="text-destructive"> assigned is required</span>
+    }
+  }
+
+  <label for="">Due Date</label>
+  <z-date-picker
+    [value]="selectedDate()"
+    placeholder="Pick a date"
+    (dateChange)="onDateChange($event)"
+    zFormat="dd-MM-yyyy"
+    formControlName="dueDate"
+    zSize="sm"
+  />
+
+  @if (createTask.get('dueDate')?.touched && createTask.get('dueDate')?.invalid) {
+    @if (createTask.get('dueDate')?.errors?.['required']) {
+      <span class="text-destructive"> please select the date</span>
+    }
+  }
+
+  <label for="">Status</label>
+  <z-select id="Status" formControlName="status" Placeholder="Select status">
+    @for (status of status; track status.value) {
+      <z-select-item [zValue]="status.value">{{ status.label }}</z-select-item>
+    }
+  </z-select>
+
+  @if (createTask.get('status')?.touched && createTask.get('status')?.invalid) {
+    @if (createTask.get('status')?.errors?.['required']) {
+      <span class="text-destructive"> please select the status</span>
+    }
+  }
+
+  <label for="">Priority</label>
+  <z-select id="assignedTo" formControlName="priority" placeholder="Select assignedTo">
+    @for (priority of priority; track priority.value) {
+      <z-select-item [zValue]="priority.value">{{ priority.label }}</z-select-item>
+    }
+  </z-select>
+
+  @if (createTask.get('priority')?.touched && createTask.get('priority')?.invalid) {
+    @if (createTask.get('priority')?.errors?.['required']) {
+      <span class="text-destructive"> please select the priority</span>
+    }
+  }
+
+  <button z-button type="submit" class="mt-3">Create</button>
+</form>
+
+<!-- title,description,duedate,assigned to,status,priority,project -->

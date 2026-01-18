@@ -6,12 +6,12 @@ import { Component, inject } from '@angular/core';
 import { ReactiveFormsModule, Validators, FormControl, FormGroup } from '@angular/forms';
 
 @Component({
-  selector: 'app-create-workspace',
+  selector: 'app-workspace',
   imports: [ReactiveFormsModule, CommonModule, ZardInputDirective, ZardButtonComponent],
-  templateUrl: './create.workspace.html',
-  styleUrl: './create.workspace.css',
+  templateUrl: './workspace.html',
+  styleUrl: './workspace.css',
 })
-export class CreateWorkspace {
+export class Workspace {
   private zData = inject(Z_MODAL_DATA);
   createWorkspace = new FormGroup({
     workspaceName: new FormControl('', [

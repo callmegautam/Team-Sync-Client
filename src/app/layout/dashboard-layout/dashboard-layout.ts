@@ -22,8 +22,8 @@ import { LucideAngularModule } from 'lucide-angular';
 import { CommonModule } from '@angular/common';
 import { ɵInternalFormsSharedModule } from '@angular/forms';
 import { ZardDialogService } from '@/shared/components/dialog/dialog.service';
-import { CreateWorkspace } from '@/shared/custom-components/workspace/create.workspace/create.workspace';
 import { Router, RouterOutlet } from '@angular/router';
+import { Workspace } from '@/shared/custom-components/workspace/workspace';
 
 interface MenuItem {
   icon: ZardIcon;
@@ -102,7 +102,7 @@ export class DashboardLayout {
     this.dialogService.create({
       zTitle: 'Create Workspace',
       zDescription: 'create your own workspace',
-      zContent: CreateWorkspace,
+      zContent: Workspace,
       zWidth: '425px',
       zOkText: null,
       zCancelText: null,
