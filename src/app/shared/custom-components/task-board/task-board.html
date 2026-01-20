@@ -1,0 +1,55 @@
+<div class="flex gap-4 p-3 items-center justify-center overflow-hidden">
+  @for (column of columns; track column.id) {
+    <div class="w-62.5 shrink-0">
+      <!-- Header -->
+      <div class="flex items-center justify-between mb-4">
+        <div class="flex items-center gap-2 font-semibold text-sm">
+          <span class="w-2 h-2 rounded-full"></span>
+          {{ column.title }}
+          <span class="ml-1 text-xs bg-gray-100 px-2 py-0.5 rounded-full">
+            {{ column.tasks.length }}
+          </span>
+        </div>
+      </div>
+
+      <!-- Add Task -->
+      <button
+        class="w-full mb-4 py-2 text-sm text-blue-600 border border-dashed border-blue-300 rounded-lg hover:bg-blue-50"
+      >
+        + Add New Task
+      </button>
+
+      <!-- Drop List -->
+      <div
+        cdkDropList
+        [cdkDropListData]="column.tasks"
+        (cdkDropListDropped)="drop($event)"
+        class="flex flex-col gap-4 min-h-37.5"
+      >
+        @for (task of column.tasks; track task.id) {
+          <div
+            cdkDrag
+            class="bg-white rounded-xl p-4 border shadow-sm cursor-move hover:shadow-md transition"
+          >
+            <!-- Tag -->
+            <span
+              class="inline-block mb-2 text-xs font-medium px-2 py-1 rounded-full bg-yellow-100 text-yellow-700"
+            >
+              {{ task.tag }}
+            </span>
+
+            <!-- Title -->
+            <h4 class="font-semibold text-sm">
+              {{ task.title }}
+            </h4>
+
+            <!-- Description -->
+            <p class="text-xs text-gray-500 mt-1">
+              {{ task.description }}
+            </p>
+          </div>
+        }
+      </div>
+    </div>
+  }
+</div>

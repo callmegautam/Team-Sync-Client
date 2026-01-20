@@ -39,7 +39,9 @@
       </div>
       <div class="h-full w-full">
         @if (activeView() === 'board') {
-          <div class="h-full w-full"></div>
+          <div class="h-full w-full">
+            <app-task-board class="h-full w-full" />
+          </div>
         } @else {
           <div class="h-full w-full">
             <!-- Table Component -->
