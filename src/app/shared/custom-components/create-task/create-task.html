@@ -99,15 +99,17 @@
     </div>
   </div>
 
-  <label for="">Due Date</label>
-  <z-date-picker
-    [value]="selectedDate()"
-    placeholder="Pick a date"
-    (dateChange)="onDateChange($event)"
-    zFormat="dd-MM-yyyy"
-    formControlName="dueDate"
-    zSize="sm"
-  />
+  <div class="flex flex-col">
+    <label for="">Due Date</label>
+    <z-date-picker
+      [value]="selectedDate()"
+      placeholder="Pick a date"
+      (dateChange)="onDateChange($event)"
+      zFormat="dd-MM-yyyy"
+      formControlName="dueDate"
+      zSize="sm"
+    />
+  </div>
 
   @if (createTask.get('dueDate')?.touched && createTask.get('dueDate')?.invalid) {
     @if (createTask.get('dueDate')?.errors?.['required']) {

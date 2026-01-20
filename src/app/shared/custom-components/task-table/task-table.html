@@ -1,0 +1,28 @@
+<div class="w-full">
+  <div class="overflow-hidden rounded-md border">
+    <table z-table>
+      <thead z-table-header>
+        <tr z-table-row>
+          <th z-table-head>Title</th>
+          <th z-table-head>Project</th>
+          <th z-table-head>Assigned to</th>
+          <th z-table-head>Due date</th>
+          <th z-table-head>Status</th>
+          <th z-table-head>Priority</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (data of listOfData; track data.key) {
+          <tr>
+            <td class="font-medium">{{ data.title }}</td>
+            <td>{{ data.project }}</td>
+            <td>{{ data.assigned_to }}</td>
+            <td>{{ data.due_date }}</td>
+            <td>{{ data.status }}</td>
+            <td>{{ data.priority }}</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</div>
