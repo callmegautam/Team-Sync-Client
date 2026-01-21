@@ -72,6 +72,11 @@ export class TaskBoard {
       title: 'Done',
       tasks: [],
     },
+    {
+      id: 'backlog',
+      title: 'Backlog',
+      tasks: [],
+    },
   ];
 
   drop(event: CdkDragDrop<any[]>) {

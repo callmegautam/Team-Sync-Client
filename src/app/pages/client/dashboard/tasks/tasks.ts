@@ -15,7 +15,7 @@ import { TaskBoard } from '@/shared/custom-components/task-board/task-board';
 })
 export class Tasks {
   private dialogService = inject(ZardDialogService);
-  activeView = signal<'board' | 'table'>('table');
+  activeView = signal<'board' | 'table'>('board');
   openTask() {
     this.dialogService.create({
       zTitle: 'Create Task',

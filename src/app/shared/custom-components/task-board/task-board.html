@@ -1,6 +1,6 @@
-<div class="flex gap-4 p-3 items-center justify-center overflow-hidden">
+<div class="flex gap-4 p-3 items-start justify-center overflow-hidden">
   @for (column of columns; track column.id) {
-    <div class="w-62.5 shrink-0">
+    <div class="w-[18%] shrink-0">
       <!-- Header -->
       <div class="flex items-center justify-between mb-4">
         <div class="flex items-center gap-2 font-semibold text-sm">
@@ -29,10 +29,7 @@
         class="flex flex-col gap-4 min-h-37.5"
       >
         @for (task of column.tasks; track task.id) {
-          <div
-            cdkDrag
-            class="bg-white rounded-xl p-4 border shadow-sm cursor-move hover:shadow-md transition"
-          >
+          <div cdkDrag>
             <!-- Placeholder (stays in list) -->
             <ng-template cdkDragPlaceholder>
               <div class="rounded-xl p-4 border shadow-lg bg-[#f9fafb]">
@@ -76,22 +73,26 @@
             </ng-template>
 
             <!-- Actual contene -->
-            <!-- Tag -->
-            <span
-              class="inline-block mb-2 text-xs font-medium px-2 py-1 rounded-full bg-yellow-100 text-yellow-700"
+            <div
+              class="bg-white rounded-xl p-4 border shadow-sm cursor-move hover:shadow-md transition"
             >
-              {{ task.tag }}
-            </span>
+              <!-- Tag -->
+              <span
+                class="inline-block mb-2 text-xs font-medium px-2 py-1 rounded-full bg-yellow-100 text-yellow-700"
+              >
+                {{ task.tag }}
+              </span>
 
-            <!-- Title -->
-            <h4 class="font-semibold text-sm">
-              {{ task.title }}
-            </h4>
+              <!-- Title -->
+              <h4 class="font-semibold text-sm">
+                {{ task.title }}
+              </h4>
 
-            <!-- Description -->
-            <p class="text-xs text-gray-500 mt-1">
-              {{ task.description }}
-            </p>
+              <!-- Description -->
+              <p class="text-xs text-gray-500 mt-1">
+                {{ task.description }}
+              </p>
+            </div>
           </div>
         }
       </div>
