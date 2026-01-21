@@ -17,22 +17,34 @@ import { NG_VALUE_ACCESSOR, type ControlValueAccessor } from '@angular/forms';
 import type { ClassValue } from 'clsx';
 
 import { ZardButtonComponent } from '@/shared/components/button/button.component';
-import type { ZardButtonSizeVariants, ZardButtonTypeVariants } from '@/shared/components/button/button.variants';
+import type {
+  ZardButtonSizeVariants,
+  ZardButtonTypeVariants,
+} from '@/shared/components/button/button.variants';
 import { ZardCalendarComponent } from '@/shared/components/calendar/calendar.component';
 import { ZardIconComponent } from '@/shared/components/icon/icon.component';
-import { ZardPopoverComponent, ZardPopoverDirective } from '@/shared/components/popover/popover.component';
+import {
+  ZardPopoverComponent,
+  ZardPopoverDirective,
+} from '@/shared/components/popover/popover.component';
 
 import { mergeClasses } from '@/shared/utils/merge-classes';
 
 const HEIGHT_BY_SIZE: Record<NonNullable<ZardButtonSizeVariants>, string> = {
   sm: 'h-8',
-  default: 'h-10',
+  default: 'h-9',
   lg: 'h-12',
 };
 
 @Component({
   selector: 'z-date-picker, [z-date-picker]',
-  imports: [ZardButtonComponent, ZardCalendarComponent, ZardPopoverComponent, ZardPopoverDirective, ZardIconComponent],
+  imports: [
+    ZardButtonComponent,
+    ZardCalendarComponent,
+    ZardPopoverComponent,
+    ZardPopoverDirective,
+    ZardIconComponent,
+  ],
   standalone: true,
   template: `
     <button
@@ -118,7 +130,8 @@ export class ZardDatePickerComponent implements ControlValueAccessor {
       'justify-start text-left font-normal',
       !hasValue && 'text-muted-foreground',
       height,
-      'min-w-[240px]',
+      'min-w-[177px]',
+      'bg-transparent',
     );
   });
 

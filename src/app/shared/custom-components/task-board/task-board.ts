@@ -27,7 +27,17 @@ interface KanbanColumn {
   styleUrl: './task-board.css',
 })
 export class TaskBoard {
-  columns = [
+  connectedDropLists: string[] = [];
+
+  ngOnInit() {
+    this.connectedDropLists = this.columns.map((c) => c.id);
+  }
+
+  trackTask(_index: number, task: KanbanTask) {
+    return task.id;
+  }
+
+  columns: KanbanColumn[] = [
     {
       id: 'todo',
       title: 'To Do',
@@ -62,11 +72,17 @@ export class TaskBoard {
       title: 'Done',
       tasks: [],
     },
+    {
+      id: 'backlog',
+      title: 'Backlog',
+      tasks: [],
+    },
   ];
 
   drop(event: CdkDragDrop<any[]>) {
     if (event.previousContainer === event.container) {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
+      console.log('Moved from if');
     } else {
       transferArrayItem(
         event.previousContainer.data,
@@ -74,6 +90,7 @@ export class TaskBoard {
         event.previousIndex,
         event.currentIndex,
       );
+      console.log('Moved from else');
     }
   }
 }

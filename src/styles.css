@@ -209,3 +209,11 @@ body {
   border-radius: 5px;
   background: var(--muted);
 }
+
+.cdk-drag-preview {
+  padding: 16px;
+}
+
+.cdk-drag-placeholder {
+  opacity: 100;
+}
