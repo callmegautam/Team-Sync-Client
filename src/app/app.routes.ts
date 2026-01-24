@@ -45,6 +45,7 @@ export const routes: Routes = [
         path: '',
         loadComponent: () =>
           import('./pages/client/dashboard/dashboard/dashboard').then((m) => m.Dashboard),
+        canActivate: [authGuard],
       },
       {
         path: 'tasks',

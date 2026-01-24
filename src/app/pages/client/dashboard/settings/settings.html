@@ -7,7 +7,11 @@
       </p>
     </div>
 
-    <div class="bg-white rounded-xl border p-6 space-y-3">
+    <div
+      class="bg-white rounded-xl border p-6 space-y-3"
+      [formGroup]="settingForm"
+      (ngSubmit)="handleSetting()"
+    >
       <h2 class="text-lg font-medium">Workspace icon</h2>
 
       <div class="flex items-center gap-6">
@@ -35,9 +39,20 @@
           type="text"
           zSize="lg"
           value="My workspace"
+          formControlName="workspaceName"
           placeholder="Enter workspace name"
         />
       </div>
+      @if (settingForm.get('workspaceName')?.touched && settingForm.get('workspaceName')?.invalid) {
+        @if (settingForm.get('workspaceName')?.errors?.['required']) {
+          <span class="text-destructive"> workspace name is required</span>
+        } @else if (
+          settingForm.get('workspaceName')?.errors?.['minlength'] ||
+          settingForm.get('workspaceName')?.errors?.['maxlength']
+        ) {
+          <span class="text-destructive">name can be of 2-50 characters</span>
+        }
+      }
 
       <div class="flex flex-col gap-1">
         <label class="text-sm font-medium">Workspace description</label>
@@ -45,9 +60,14 @@
           z-input
           rows="3"
           placeholder="Briefly describe your workspace"
+          formControlName="workspaceDescription"
           class="resize-none"
         ></textarea>
       </div>
+
+      @if (settingForm.get('workspaceDescription')?.errors?.['maxlength']) {
+        <span class="text-destructive">description can be of 255 characters</span>
+      }
       <div class="flex flex-col gap-1">
         <label class="text-sm font-medium">Invite code</label>
         <div class="relative">
@@ -64,13 +84,26 @@
             type="text"
             zSize="lg"
             class="relative z-20 bg-transparent pl-40 text-gray-500 text-sm"
+            formControlName="workspaceInvite"
             value="abc"
           />
         </div>
       </div>
+      @if (
+        settingForm.get('workspaceInvite')?.touched && settingForm.get('workspaceInvite')?.invalid
+      ) {
+        @if (settingForm.get('workspaceInvite')?.errors?.['required']) {
+          <span class="text-destructive"> workspace invite is required</span>
+        } @else if (
+          settingForm.get('workspaceInvite')?.errors?.['minlength'] ||
+          settingForm.get('workspaceInvite')?.errors?.['maxlength']
+        ) {
+          <span class="text-destructive">Invite can be of 3to 10 characters</span>
+        }
+      }
 
       <div class="flex justify-end gap-3">
-        <button z-button zType="default" class="">Update workspace</button>
+        <button type="submit" z-button zType="default" class="">Update workspace</button>
         <button z-button zType="destructive">Delete workspace</button>
       </div>
     </div>

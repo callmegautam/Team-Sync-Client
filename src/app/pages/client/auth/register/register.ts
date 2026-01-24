@@ -7,13 +7,7 @@ import { Authservice, RegisterType } from '@/shared/services/auth/authservice';
 import { ErrorHandlerService } from '@/shared/services/error-handler/error.handler.service';
 import { UserStore } from '@/stores/user.store';
 import { Component } from '@angular/core';
-import {
-  FormsModule,
-  ReactiveFormsModule,
-  FormGroup,
-  FormControl,
-  Validators,
-} from '@angular/forms';
+import { ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { toast } from 'ngx-sonner';
 
@@ -47,15 +41,15 @@ export class Register {
     ]),
     username: new FormControl('', [
       Validators.required,
-      Validators.minLength(5),
-      Validators.maxLength(15),
+      Validators.minLength(2),
+      Validators.maxLength(50),
       Validators.pattern(/^[a-zA-Z0-9_]+$/),
     ]),
     email: new FormControl('', [Validators.required, Validators.email]),
     password: new FormControl('', [
       Validators.required,
-      Validators.minLength(6),
-      Validators.maxLength(20),
+      Validators.minLength(4),
+      Validators.maxLength(50),
     ]),
   });
   handleRegister() {
@@ -69,6 +63,7 @@ export class Register {
       this.authService.register(data).subscribe({
         next: (res) => {
           toast.success('Register sucessfully !!!');
+          localStorage.setItem('user', JSON.stringify(res.data));
           this.userStore.setStore(res.data);
           this.router.navigate(['/dashboard']);
         },
