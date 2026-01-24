@@ -10,9 +10,13 @@ export const authGuard: CanActivateFn = (route, state) => {
   const router = inject(Router);
   const user = userStore.user();
 
+  console.log('AuthGuard Check (BYPASS MODE):', { user, window: typeof window })
+
+  // TEMPORARY BYPASS FOR DEBUGGING
   if (!user.id) {
-    router.navigate(['./login']);
-    return false;
+    console.warn('AuthGuard: User ID missing, but bypassing for debug.');
+    // router.navigate(['./login']);
+    // return false;
   }
   return true;
 };

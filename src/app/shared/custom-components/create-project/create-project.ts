@@ -1,9 +1,7 @@
 import { ZardButtonComponent } from '@/shared/components/button/button.component';
-import { ZardDatePickerComponent } from '@/shared/components/date-picker';
 import { Z_MODAL_DATA } from '@/shared/components/dialog/dialog.service';
+import { ZardAvatarComponent } from '@/shared/components/avatar/avatar.component';
 import { ZardInputDirective } from '@/shared/components/input/input.directive';
-import { ZardSelectItemComponent } from '@/shared/components/select/select-item.component';
-import { ZardSelectComponent } from '@/shared/components/select/select.component';
 import { CommonModule } from '@angular/common';
 import { inject, signal, Component } from '@angular/core';
 import { ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angular/forms';
@@ -13,9 +11,7 @@ import { ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angula
   imports: [
     ReactiveFormsModule,
     CommonModule,
-    ZardSelectComponent,
-    ZardSelectItemComponent,
-    ZardDatePickerComponent,
+    ZardAvatarComponent,
     ZardInputDirective,
     ZardButtonComponent,
   ],
@@ -53,9 +49,7 @@ export class CreateProject {
       Validators.maxLength(50),
     ]),
     description: new FormControl('', Validators.maxLength(255)),
-    dueDate: new FormControl('', Validators.required),
-    priority: new FormControl('', Validators.required),
-    status: new FormControl('', Validators.required),
+    imageUrl: new FormControl(''),
   });
 
   ngAfterViewInit(): void {
