@@ -124,6 +124,11 @@ export class DashboardLayout {
         username: '@ribeiromatheus.dev',
       },
       zOkText: 'Save changes',
+      zOnOk: (instance) => {
+        console.log('form', instance.profile.value);
+      },
+
+      zCancelText: 'Cancel',
     });
   }
 }
