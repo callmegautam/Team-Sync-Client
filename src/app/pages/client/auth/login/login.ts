@@ -59,6 +59,7 @@ export class Login {
       next: (res) => {
         toast.success('Successful Login!!!');
         this.userStore.setStore(res.data);
+        console.log(res.data);
         this.router.navigate(['/dashboard']);
       },
       error: (err) => {

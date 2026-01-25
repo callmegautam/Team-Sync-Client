@@ -27,6 +27,7 @@ import { Workspace } from '@/shared/custom-components/workspace/workspace';
 import { ZardSheetService } from '@/shared/components/sheet';
 import { profile } from 'console';
 import { Profile } from '@/pages/client/dashboard/profile/profile';
+import { UserStore } from '@/stores/user.store';
 
 interface MenuItem {
   icon: ZardIcon;
@@ -63,7 +64,10 @@ export class DashboardLayout {
   private dialogService = inject(ZardDialogService);
   readonly sidebarCollapsed = signal(false);
 
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router,
+    private userStore: UserStore,
+  ) {}
 
   workspaceMenuItems: MenuItem[] = [
     // {
@@ -119,10 +123,6 @@ export class DashboardLayout {
       zTitle: 'Edit profile',
       zDescription: `Make changes to your profile here. Click save when you're done.`,
       zContent: Profile,
-      zData: {
-        name: 'Matheus Ribeiro',
-        username: '@ribeiromatheus.dev',
-      },
       zOkText: 'Save changes',
       zOnOk: (instance) => {
         console.log('form', instance.profile.value);
@@ -130,5 +130,11 @@ export class DashboardLayout {
 
       zCancelText: 'Cancel',
     });
+  }
+
+  logout() {
+    this.userStore.clear();
+    localStorage.clear();
+    this.router.navigate(['/login']);
   }
 }

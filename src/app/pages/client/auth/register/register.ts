@@ -63,8 +63,8 @@ export class Register {
       this.authService.register(data).subscribe({
         next: (res) => {
           toast.success('Register sucessfully !!!');
-          localStorage.setItem('user', JSON.stringify(res.data));
           this.userStore.setStore(res.data);
+          localStorage.setItem('userID', res.data.id);
           this.router.navigate(['/dashboard']);
         },
         error: (err) => {
