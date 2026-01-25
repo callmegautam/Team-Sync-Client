@@ -66,8 +66,8 @@
 
           @if (!sidebarCollapsed()) {
             <div>
-              <span class="text-sm">My Workspace</span>
-              <div class="text-xs">test&#64;zardui.com</div>
+              <span class="text-sm">{{ defaultWorkspace?.name }}</span>
+              <div class="text-xs">{{ defaultWorkspace?.description }}</div>
             </div>
 
             <z-icon zType="chevrons-up-down" class="ml-auto" />
@@ -78,11 +78,11 @@
           <div z-menu-content class="w-48">
             <button type="button" z-menu-item>
               <z-icon zType="layers" class="mr-2" />
-              My Workspace
+              {{ defaultWorkspace?.name }}
             </button>
             <button type="button" z-menu-item (click)="openWorkspace()">
               <z-icon zType="plus" class="mr-2" />
-              Add Workspace
+              + Add workspace
             </button>
           </div>
         </ng-template>

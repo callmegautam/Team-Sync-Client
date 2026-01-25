@@ -27,6 +27,7 @@ export class Authservice {
       .pipe(
         tap((res) => {
           localStorage.setItem('token', res.data.token);
+          localStorage.setItem('user', JSON.stringify(res.data));
         }),
       );
   }
@@ -34,11 +35,16 @@ export class Authservice {
     return this.http.post<any>(`${this.api}/auth/register`, data, { withCredentials: true }).pipe(
       tap((res) => {
         localStorage.setItem('token', res.data.token);
+        localStorage.setItem('user', JSON.stringify(res.data));
       }),
     );
   }
 
   user() {
-    return this.http.get(`${this.api}/auth/me`, { withCredentials: true });
+    return this.http.get<any>(`${this.api}/auth/me`, { withCredentials: true }).pipe(
+      tap((res) => {
+        localStorage.setItem('user', JSON.stringify(res.data));
+      }),
+    );
   }
 }
