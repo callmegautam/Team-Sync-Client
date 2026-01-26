@@ -31,6 +31,7 @@ import { UserStore } from '@/stores/user.store';
 import { WorkspaceService } from '@/shared/services/workspace/workspace-service';
 import { toast } from 'ngx-sonner';
 import { ErrorHandlerService } from '@/shared/services/error-handler/error.handler.service';
+import { ProfileService } from '@/shared/services/profile/profile-service';
 
 interface MenuItem {
   icon: ZardIcon;
@@ -68,6 +69,7 @@ export class DashboardLayout {
   readonly sidebarCollapsed = signal(false);
   private workspaceService = inject(WorkspaceService);
   private errorHandleService = inject(ErrorHandlerService);
+  private profileService = inject(ProfileService);
 
   constructor(
     private router: Router,
@@ -195,7 +197,22 @@ export class DashboardLayout {
       zContent: Profile,
       zOkText: 'Save changes',
       zOnOk: (instance) => {
-        console.log('form', instance.profile.value);
+        const formValue = instance.profile.value;
+        const data: any = {
+          name: formValue.name,
+          username: formValue.username,
+        };
+
+        this.profileService.updateProfile(data).subscribe({
+          next: (res) => {
+            console.log(res);
+          },
+          error: (err) => {
+            console.log(err);
+            const errorMessage = this.errorHandleService.handleStatus(err.status);
+            toast.error(errorMessage);
+          },
+        });
       },
 
       zCancelText: 'Cancel',
