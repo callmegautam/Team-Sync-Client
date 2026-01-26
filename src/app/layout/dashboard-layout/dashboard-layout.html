@@ -187,7 +187,13 @@
 
           <z-divider zSpacing="sm" />
 
-          <button type="button" z-menu-item class="flex items-center gap-2 text-red-500">
+          <button 
+            type="button"
+            z-menu-item
+            class="flex items-center gap-2 text-red-500"
+            (click)="logout()"
+            >
+
             <z-icon zType="log-out" />
             <span>Logout</span>
           </button>

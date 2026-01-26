@@ -13,7 +13,7 @@ export class UserStore {
 
   constructor() {
     if (typeof window !== 'undefined') {
-      const storedUser = localStorage.getItem('userID');
+      const storedUser = localStorage.getItem('user');
       if (storedUser) {
         this.user.set(JSON.parse(storedUser));
       }
@@ -22,8 +22,16 @@ export class UserStore {
 
   setStore(data: User) {
     this.user.set(data);
+    localStorage.setItem('user', JSON.stringify(data));
+  }
+
+  getUserData() {
     if (typeof window !== 'undefined') {
-      localStorage.setItem('userID', JSON.stringify(data.id));
+      const local = localStorage.getItem('user');
+      if (!local) {
+        return null;
+      }
+      return JSON.parse(local);
     }
   }
 
@@ -32,7 +40,7 @@ export class UserStore {
       id: '',
     });
     if (typeof window !== 'undefined') {
-      localStorage.removeItem('userID');
+      localStorage.removeItem('user');
       localStorage.removeItem('token');
     }
   }
