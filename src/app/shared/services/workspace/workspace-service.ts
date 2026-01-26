@@ -13,6 +13,14 @@ export class WorkspaceService {
   // workspaceId = localStorage.getItem('workspaceId');
 
   currentWorkspace(workspaceId: string) {
-    return this.http.get<any>(`${this.api}/workspaces/${workspaceId}`);
+    return this.http.get<any>(`${this.api}/workspaces/${workspaceId}`, { withCredentials: true });
+  }
+
+  createWorkspace(data: { name: string; description?: string }): Observable<any> {
+    return this.http.post<any>(`${this.api}/workspaces`, data, { withCredentials: true });
+  }
+
+  allWorkspace() {
+    return this.http.get<any>(`${this.api}/workspaces`, { withCredentials: true });
   }
 }

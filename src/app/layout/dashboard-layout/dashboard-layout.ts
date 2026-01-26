@@ -135,9 +135,56 @@ export class DashboardLayout {
       zDescription: 'Create your own workspace',
       zContent: Workspace,
       zWidth: '425px',
-      zOkText: null,
+      zOkText: 'Create',
+      zOnOk: (instance) => {
+        const formValue = instance.createWorkspace.value;
+
+        if (!formValue.workspaceName || formValue.workspaceName.trim().length < 3) {
+          toast.error('Workspace name must be at least 3 characters');
+          return;
+        }
+
+        const data: any = {
+          name: formValue.workspaceName.trim(),
+        };
+        if (formValue.description?.trim()) {
+          data.description = formValue.description.trim();
+        }
+
+        this.workspaceService.createWorkspace(data).subscribe({
+          next: (res) => {
+            console.log('Workspace created:', res);
+            this.workspaces.push(res);
+            this.refreshWorkspaces = true;
+          },
+          error: (err) => {
+            console.error(err);
+            toast.error(err.error?.error || 'Failed to create workspace');
+          },
+        });
+      },
+
       zCancelText: null,
       zClosable: true,
+    });
+  }
+
+  workspaces: any[] = [];
+  refreshWorkspaces = false;
+
+  loadWorkspace() {
+    if (this.workspaces.length && !this.refreshWorkspaces) return;
+    this.workspaceService.allWorkspace().subscribe({
+      next: (res) => {
+        this.workspaces = res.data;
+        this.refreshWorkspaces = false;
+        console.log('sgddi', res.data);
+      },
+      error: (err) => {
+        console.log(err);
+        const errorMessage = this.errorHandleService.handleStatus(err.status);
+        toast.error(errorMessage);
+      },
     });
   }
 

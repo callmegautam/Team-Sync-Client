@@ -7,7 +7,7 @@ import { ReactiveFormsModule, Validators, FormControl, FormGroup } from '@angula
 
 @Component({
   selector: 'app-workspace',
-  imports: [ReactiveFormsModule, CommonModule, ZardInputDirective, ZardButtonComponent],
+  imports: [ReactiveFormsModule, CommonModule, ZardInputDirective],
   templateUrl: './workspace.html',
   styleUrl: './workspace.css',
 })
@@ -16,18 +16,14 @@ export class Workspace {
   createWorkspace = new FormGroup({
     workspaceName: new FormControl('', [
       Validators.required,
-      Validators.minLength(2),
+      Validators.minLength(3),
       Validators.maxLength(50),
     ]),
-    description: new FormControl('', Validators.maxLength(255)),
+    description: new FormControl(''),
   });
   ngAfterViewInit(): void {
     if (this.zData) {
       this.createWorkspace.patchValue(this.zData);
     }
-  }
-
-  handleWorkspace() {
-    const { workspaceName, description } = this.createWorkspace.value;
   }
 }
