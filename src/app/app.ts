@@ -15,18 +15,18 @@ export class App implements OnInit {
   user: AuthResponse | null = null;
 
   constructor(
-    private userStore: AuthStore,
+    private authStore: AuthStore,
     private authService: AuthService,
   ) {}
 
   ngOnInit() {
     // Option 1: Subscribe to reactive updates
-    // this.userStore.user$.subscribe((user) => {
+    // this.authStore.user$.subscribe((user) => {
     //   this.user = user;
     // });
 
     // // Option 2: Fetch user from API if not already loaded
-    // if (!this.userStore.snapshot) {
+    // if (!this.authStore.snapshot) {
     //   this.authService.fetchUser().subscribe();
     // }
 

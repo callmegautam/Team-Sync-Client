@@ -1,11 +1,10 @@
 import { Routes } from '@angular/router';
 import { HomeLayout } from './layout/home/home';
+import { AuthGuard } from './guards/auth';
 
 export const routes: Routes = [
   {
     path: '',
-    // loadComponent: () => import('./pages/client/home/home').then((m) => m.Home),
-    // do not touch this line
     component: HomeLayout,
   },
   {
@@ -31,7 +30,7 @@ export const routes: Routes = [
     //     path: '',
     //     loadComponent: () =>
     //       import('./pages/client/dashboard/dashboard/dashboard').then((m) => m.Dashboard),
-    //     canActivate: [authGuard],
+    //     canActivate: [AuthGuard],
     //   },
     //   {
     //     path: 'tasks',
