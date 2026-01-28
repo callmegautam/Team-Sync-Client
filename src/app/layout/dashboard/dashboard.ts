@@ -1,9 +1,204 @@
-import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Profile } from '@/pages/profile/profile';
+import { AuthService } from '@/services/auth';
+import { ErrorHandlerService } from '@/services/error-handler';
+import { ProfileService } from '@/services/profile';
+import { WorkspaceService } from '@/services/workspace';
+import { ZardAvatarComponent } from '@/shared/components/avatar/avatar.component';
+import {
+  ZardBreadcrumbComponent,
+  ZardBreadcrumbItemComponent,
+} from '@/shared/components/breadcrumb/breadcrumb.component';
+import { ZardButtonComponent } from '@/shared/components/button/button.component';
+import { ZardDialogService } from '@/shared/components/dialog/dialog.service';
+import { ZardDividerComponent } from '@/shared/components/divider/divider.component';
+import { ZardIconComponent } from '@/shared/components/icon/icon.component';
+import { ContentComponent } from '@/shared/components/layout/content.component';
+import { LayoutComponent } from '@/shared/components/layout/layout.component';
+import {
+  SidebarComponent,
+  SidebarGroupComponent,
+} from '@/shared/components/layout/sidebar.component';
+import { ZardMenuImports } from '@/shared/components/menu/menu.imports';
+import { ZardSheetService } from '@/shared/components/sheet';
+import { ZardTooltipDirective } from '@/shared/components/tooltip/tooltip';
+import { CreateWorkspace } from '@/shared/custom-components/workspace/create-workspace/create-workspace';
+import { menuItems } from '@/shared/utils/workspace-menu-items';
+import { AuthStore } from '@/store/auth';
+import { User } from '@/types/auth';
+import { ProfilePayload } from '@/types/profile';
+import { CreateWorkspacePayload, Workspace } from '@/types/workspace';
+import { CommonModule } from '@angular/common';
+import { Component, OnInit, signal } from '@angular/core';
+import { ɵInternalFormsSharedModule } from '@angular/forms';
+import { Router, RouterOutlet } from '@angular/router';
+import { LucideAngularModule } from 'lucide-angular';
 
 @Component({
-  selector: 'app-home-layout',
-  imports: [RouterOutlet],
+  selector: 'app-dashboard-layout',
+  imports: [
+    LayoutComponent,
+    CommonModule,
+    SidebarComponent,
+    SidebarGroupComponent,
+    ZardButtonComponent,
+    ZardAvatarComponent,
+    ZardBreadcrumbComponent,
+    ZardMenuImports,
+    ZardIconComponent,
+    ZardDividerComponent,
+    ZardTooltipDirective,
+    ContentComponent,
+    ZardBreadcrumbItemComponent,
+    LucideAngularModule,
+    ɵInternalFormsSharedModule,
+    RouterOutlet,
+  ],
   templateUrl: './dashboard.html',
 })
-export class DashboardLayout {}
+export class DashboardLayout implements OnInit {
+  constructor(
+    private authStore: AuthStore,
+    private authService: AuthService,
+    private workspaceService: WorkspaceService,
+    private errorHandleService: ErrorHandlerService,
+    private router: Router,
+    private sheetService: ZardSheetService,
+    private profileService: ProfileService,
+    private dialogService: ZardDialogService,
+  ) {}
+
+  sidebarCollapsed = signal(false);
+  user: User | null = null;
+  defaultWorkspace: Workspace | null | undefined = null;
+  workspaces: Workspace[] | null | undefined = null;
+  workspaceMenuItems = menuItems;
+
+  ngOnInit() {
+    this.authStore.user$.subscribe((user) => {
+      this.user = user;
+    });
+
+    if (!this.authStore.snapshot) {
+      this.authService.fetchUser().subscribe();
+    }
+
+    this.workspaceService.currentWorkspace().subscribe({
+      next: (res) => {
+        if (!res.data) {
+          this.defaultWorkspace = null;
+          const errorMessage = this.errorHandleService.handleStatus(401);
+          // TODO: add toast message
+        }
+        this.defaultWorkspace = res.data;
+      },
+      error: (err) => {
+        const errorMessage = this.errorHandleService.handleStatus(err.status);
+        // TODO: add toast message
+      },
+    });
+  }
+
+  navigate(link?: string) {
+    if (!link) return;
+    this.router.navigate([link]);
+  }
+
+  toggleSidebar() {
+    this.sidebarCollapsed.update((collapsed) => !collapsed);
+  }
+
+  onCollapsedChange(collapsed: boolean) {
+    this.sidebarCollapsed.set(collapsed);
+  }
+
+  logout() {
+    this.authStore.clear();
+    this.router.navigate(['/login']);
+  }
+
+  openProfile() {
+    this.sheetService.create({
+      zTitle: 'Edit profile',
+      zDescription: `Make changes to your profile here. Click save when you're done.`,
+      zContent: Profile,
+      zOkText: 'Save changes',
+      zOnOk: (instance) => {
+        const formValue = instance.profileForm.getRawValue();
+        const data: ProfilePayload = {
+          name: formValue.name,
+          username: formValue.username,
+        };
+
+        this.profileService.updateProfile(data).subscribe({
+          next: (res) => {
+            console.log('Profile Updated: ', res.data);
+            this.authService.fetchUser().subscribe();
+          },
+          error: (err) => {
+            console.log(err);
+            const errorMessage = this.errorHandleService.handleStatus(err.status);
+            // toast.error(errorMessage);
+          },
+        });
+      },
+
+      zCancelText: 'Cancel',
+    });
+  }
+
+  loadWorkspaces() {
+    this.workspaceService.getWorkspaces().subscribe({
+      next: (res) => {
+        if (!res.data) {
+          return;
+        }
+        this.workspaces = res.data;
+      },
+
+      error: (err) => {
+        console.log(err);
+        const errorMessage = this.errorHandleService.handleStatus(err.status);
+      },
+    });
+  }
+
+  openWorkspace() {
+    this.dialogService.create({
+      zTitle: 'Create Workspace',
+      zDescription: 'Create your own workspace',
+      zContent: CreateWorkspace,
+      zWidth: '425px',
+      zOkText: 'Create',
+      zOnOk: (instance) => {
+        const formValue = instance.workspaceForm.getRawValue();
+
+        if (!formValue.name || formValue.name.trim().length < 3) {
+          // toast.error('Workspace name must be at least 3 characters');
+          return;
+        }
+
+        const data: CreateWorkspacePayload = {
+          name: formValue.name.trim(),
+          description: formValue.description || 'My default description',
+        };
+
+        this.workspaceService.createWorkspace(data).subscribe({
+          next: (res) => {
+            if (!res.data) {
+              console.log('Error');
+              return;
+            }
+            this.workspaces?.push(res.data);
+          },
+          error: (err) => {
+            console.log(err);
+            const errorMessage = this.errorHandleService.handleStatus(err.status);
+          },
+        });
+      },
+
+      zCancelText: null,
+      zClosable: true,
+    });
+  }
+}

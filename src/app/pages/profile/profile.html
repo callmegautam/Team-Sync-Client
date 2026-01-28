@@ -1,0 +1,40 @@
+<form [formGroup]="profileForm" class="flex flex-col justify-between gap-6 px-4">
+  <div class="flex">
+    <z-avatar
+      zSrc="https://zardui.com/images/avatar/imgs/avatar_image.jpg"
+      zAlt="User Avatar"
+      zSize="xl"
+      class="cursor-pointer"
+      (click)="fileInput.click()"
+    />
+
+    <input #fileInput type="file" hidden />
+  </div>
+  <div class="flex flex-col gap-3">
+    <label
+      for="name"
+      class="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50"
+    >
+      Name
+    </label>
+    <input
+      z-input
+      formControlName="name"
+      class="file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive flex h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium focus-visible:ring-[3px] disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm"
+    />
+  </div>
+
+  <div class="flex flex-col gap-3">
+    <label
+      for="username"
+      class="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50"
+    >
+      Username
+    </label>
+    <input
+      z-input
+      formControlName="username"
+      class="file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive flex h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium focus-visible:ring-[3px] disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm"
+    />
+  </div>
+</form>

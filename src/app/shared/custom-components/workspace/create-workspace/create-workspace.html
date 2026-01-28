@@ -1,0 +1,29 @@
+<form [formGroup]="workspaceForm" class="flex flex-col">
+  <label for="" class="pb-2 pt-1">Workspace name</label>
+  <input
+    z-input
+    type="text"
+    placeholder="Name of workspace"
+    formControlName="workspaceName"
+    zSize="lg"
+    class="text-secondary-foreground text-sm"
+  />
+  @if (workspaceForm.get('workspaceName')?.touched && workspaceForm.get('workspaceName')?.invalid) {
+    @if (workspaceForm.get('workspaceName')?.errors?.['required']) {
+      <span class="text-destructive"> workspace name is required</span>
+    } @else if (
+      workspaceForm.get('workspaceName')?.errors?.['minlength'] ||
+      workspaceForm.get('workspaceName')?.errors?.['maxlength']
+    ) {
+      <span class="text-destructive">name can be of 2-50 characters</span>
+    }
+  }
+  <label for="" class="pb-2 pt-2">Description</label>
+  <textarea
+    z-input
+    rows="5"
+    placeholder="Description of workspace"
+    formControlName="description"
+    class="w-full text-secondary-foreground"
+  ></textarea>
+</form>

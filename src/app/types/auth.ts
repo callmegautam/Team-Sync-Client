@@ -1,16 +1,16 @@
-export interface RegisterRequest {
+export interface RegisterPayload {
   name: string;
   username: string;
   email: string;
   password: string;
 }
 
-export interface LoginRequest {
+export interface LoginPayload {
   email: string;
   password: string;
 }
 
-export interface AuthResponse {
+export interface User {
   id: string;
   name: string;
   email: string;
@@ -18,4 +18,10 @@ export interface AuthResponse {
   token: string;
   avatarUrl: string | null;
   currentWorkspace: string;
+}
+
+export interface AuthResponse {
+  success: boolean;
+  data?: User;
+  error?: string;
 }
