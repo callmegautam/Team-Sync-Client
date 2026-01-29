@@ -30,7 +30,7 @@ export class CreateWorkspace {
     }),
 
     description: new FormControl('', {
-      nonNullable: true,
+      nonNullable: false,
 
       validators: [
         Validators.minLength(2),

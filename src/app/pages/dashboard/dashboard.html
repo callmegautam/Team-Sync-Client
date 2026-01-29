@@ -1,0 +1,85 @@
+<div class="h-full w-full bg-gray-50 flex items-center justify-center rounded-xl px-5">
+  <div class="h-full w-full pb-5">
+    <div class="w-full h-[15%] flex flex-row">
+      <div class="h-full w-[60%] flex flex-col items-start justify-center">
+        <h1 class="text-4xl font-semibold text-gray-900">Dashboard</h1>
+        <p class="text-sm text-muted-foreground mt-1">Here is the overview of the Dashboard</p>
+      </div>
+      <div class="h-full w-[40%] flex flex-col items-end justify-center">
+        <button z-button (click)="openProject()">+ New Project</button>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mt-4">
+      <div class="rounded-xl border bg-white shadow-sm p-6">
+        <div class="flex items-center justify-between mb-2">
+          <div class="flex items-center gap-2 font-semibold text-sm">
+            <span class="w-2 h-2 rounded-full bg-blue-600"></span>
+            Total Task
+          </div>
+          <z-icon zType="ellipsis" class="w-4 h-4 text-muted-foreground"></z-icon>
+        </div>
+        <div class="text-3xl font-bold">3</div>
+      </div>
+
+      <div class="rounded-xl border bg-white shadow-sm p-6">
+        <div class="flex items-center justify-between mb-2">
+          <div class="flex items-center gap-2 font-semibold text-sm">
+            <span class="w-2 h-2 rounded-full bg-blue-600"></span>
+            Tasks In Progress
+          </div>
+          <z-icon zType="ellipsis" class="w-4 h-4 text-muted-foreground"></z-icon>
+        </div>
+        <div class="text-3xl font-semibold">2</div>
+      </div>
+
+      <div class="rounded-xl border bg-white shadow-sm p-6">
+        <div class="flex items-center justify-between mb-2">
+          <div class="flex items-center gap-2 font-semibold text-sm">
+            <span class="w-2 h-2 rounded-full bg-blue-600"></span>
+            Pending Task
+          </div>
+          <z-icon zType="ellipsis" class="w-4 h-4 text-muted-foreground" />
+        </div>
+        <div class="text-3xl font-semibold">2</div>
+      </div>
+
+      <div class="rounded-xl border bg-white shadow-sm p-6">
+        <div class="flex items-center justify-between mb-2">
+          <div class="flex items-center gap-2 font-semibold text-sm">
+            <span class="w-2 h-2 rounded-full bg-blue-600"></span>
+            Overdue Tasks
+          </div>
+          <z-icon zType="ellipsis" class="w-4 h-4 text-muted-foreground"></z-icon>
+        </div>
+        <div class="text-3xl font-semibold">1</div>
+      </div>
+    </div>
+
+    <div class="mt-6 rounded-xl border bg-white shadow-sm">
+      <div class="flex items-center border-b text-sm">
+        <button class="px-4 py-2 font-medium text-foreground">Recent Project</button>
+        <button class="px-4 py-2 text-muted-foreground">Recent Task</button>
+        <button class="px-4 py-2 text-muted-foreground">Recent Member</button>
+      </div>
+      <div class="p-4">
+        <div class="flex items-center justify-between rounded-lg border p-4">
+          <div class="flex items-center gap-3">
+            <img
+              src="https://zardui.com/images/avatar/imgs/avatar_image.jpg"
+              alt="Project"
+              class="w-10 h-10 rounded-md object-cover"
+            />
+            <div>
+              <div class="font-semibold text-sm">Project Name</div>
+              <div class="text-xs text-muted-foreground"></div>
+            </div>
+          </div>
+          <div class="flex items-center gap-2 text-sm text-muted-foreground">
+            <span>Created by</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

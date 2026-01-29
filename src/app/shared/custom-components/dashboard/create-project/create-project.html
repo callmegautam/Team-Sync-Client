@@ -1,0 +1,65 @@
+<form [formGroup]="projectForm" (ngSubmit)="handleProject()" class="flex flex-col">
+  <div class="flex flex-col pb-2 pt-1">
+    <label for="">Title</label>
+    <input
+      z-input
+      type="text"
+      placeholder="Title of project"
+      formControlName="title"
+      zSize="lg"
+      class="text-secondary-foreground text-sm"
+    />
+    @if (projectForm.get('projectTitle')?.touched && projectForm.get('projectTitle')?.invalid) {
+      @if (projectForm.get('projectTitle')?.errors?.['required']) {
+        <span class="text-destructive"> project title is required</span>
+      } @else if (
+        projectForm.get('projectTitle')?.errors?.['minlength'] ||
+        projectForm.get('projectTitle')?.errors?.['maxlength']
+      ) {
+        <span class="text-destructive">title can be of 2-50 characters</span>
+      }
+    }
+  </div>
+
+  <div class="flex flex-col pb-2 pt-1">
+    <label for="">Description</label>
+    <textarea
+      z-input
+      rows="5"
+      placeholder="Description of project"
+      formControlName="description"
+      class="w-full text-secondary-foreground"
+    ></textarea>
+
+    @if (projectForm.get('description')?.errors?.['maxlength']) {
+      <span class="text-destructive">description can be of 255 characters</span>
+    }
+  </div>
+
+  <div class="flex flex-col md:flex-row gap-4 pb-2 pt-1 items-start">
+    <div class="flex flex-col flex-1">
+      <label for="">Image URL</label>
+      <input
+        z-input
+        type="text"
+        placeholder="https://example.com/image.jpg"
+        formControlName="imageUrl"
+        class="text-secondary-foreground text-sm"
+      />
+    </div>
+    <div class="flex items-center justify-start">
+      <div
+        z-avatar
+        [zSrc]="
+          projectForm.get('imageUrl')?.value ||
+          'https://zardui.com/images/avatar/imgs/avatar_image.jpg'
+        "
+        zAlt="Project Image"
+        zSize="xl"
+        zShape="rounded"
+      ></div>
+    </div>
+  </div>
+
+  <button z-button type="submit" class="mt-3">Create</button>
+</form>

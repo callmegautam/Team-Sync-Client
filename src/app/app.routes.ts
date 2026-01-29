@@ -26,12 +26,11 @@ export const routes: Routes = [
     loadComponent: () => import('./layout/dashboard/dashboard').then((m) => m.DashboardLayout),
 
     children: [
-      //   {
-      //     path: '',
-      //     loadComponent: () =>
-      //       import('./pages/client/dashboard/dashboard/dashboard').then((m) => m.Dashboard),
-      //     canActivate: [AuthGuard],
-      //   },
+      {
+        path: '',
+        loadComponent: () => import('./pages/dashboard/dashboard').then((m) => m.Dashboard),
+        canActivate: [AuthGuard],
+      },
       //   {
       //     path: 'tasks',
       //     loadComponent: () => import('./pages/client/dashboard/tasks/tasks').then((m) => m.Tasks),
