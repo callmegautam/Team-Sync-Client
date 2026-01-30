@@ -118,7 +118,9 @@
 
       <div class="flex justify-end gap-3">
         <button type="submit" z-button zType="default" class="">Update workspace</button>
-        <button z-button zType="destructive">Delete workspace</button>
+        <button z-button zType="destructive" type="button" (click)="deleteWorkspace()">
+          Delete workspace
+        </button>
       </div>
     </form>
   </div>

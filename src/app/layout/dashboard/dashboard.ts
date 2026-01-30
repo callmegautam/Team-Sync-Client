@@ -101,6 +101,20 @@ export class DashboardLayout implements OnInit {
     });
 
     this.loadWorkspaces();
+
+    this.workspaceService.workspaceChanged$.subscribe(() => {
+      this.loadWorkspaces();
+      this.loadCurrentWorkspace();
+    });
+  }
+
+  private loadCurrentWorkspace() {
+    this.workspaceService.currentWorkspace().subscribe({
+      next: (res) => {
+        this.defaultWorkspace = res.data;
+        this.cdr.detectChanges();
+      },
+    });
   }
 
   navigate(link?: string) {
@@ -195,6 +209,8 @@ export class DashboardLayout implements OnInit {
               return;
             }
             this.workspaces?.push(res.data);
+            this.changeWorkspace(res.data.id);
+            this.router.navigate(['dashboard']);
             this.cdr.detectChanges();
           },
           error: (err) => {

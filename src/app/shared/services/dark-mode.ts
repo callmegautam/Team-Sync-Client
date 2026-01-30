@@ -34,7 +34,7 @@ export class ZardDarkMode {
 
   constructor() {
     if (this.isBrowser) {
-      this._query = inject(MediaMatcher).matchMedia('(prefers-color-scheme: dark)');
+      this._query = inject(MediaMatcher).matchMedia('(prefers-color-scheme: light)');
       this.destroyRef.onDestroy(() => this.handleSystemChanges(false));
 
       effect(() => {
