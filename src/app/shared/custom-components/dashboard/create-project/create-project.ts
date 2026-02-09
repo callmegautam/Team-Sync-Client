@@ -3,10 +3,13 @@ import { Z_MODAL_DATA } from '@/shared/components/dialog/dialog.service';
 import { ZardDialogRef } from '@/shared/components/dialog/dialog-ref';
 import { ZardAvatarComponent } from '@/shared/components/avatar/avatar.component';
 import { CommonModule } from '@angular/common';
-import { inject, Component, signal } from '@angular/core';
+import { Component, signal, Inject } from '@angular/core';
 import { ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angular/forms';
 import { ZardInputDirective } from '@/shared/components/input/input.directive';
 import { ProjectService } from '@/services/project';
+import { AuthStore } from '@/store/auth';
+import { ErrorHandlerService } from '@/services/error-handler';
+import { CreateProjectPayload, ProjectResponse } from '../../../../types/project';
 
 type ProjectFormControls = {
   title: FormControl<string>;
@@ -26,10 +29,13 @@ type ProjectFormControls = {
   templateUrl: './create-project.html',
 })
 export class CreateProject {
-  private zData = inject(Z_MODAL_DATA);
-  private dialogRef = inject<ZardDialogRef<CreateProject>>(ZardDialogRef);
-
-  constructor(private projectService: ProjectService) {}
+  constructor(
+    @Inject(Z_MODAL_DATA) private zData: any,
+    private dialogRef: ZardDialogRef<CreateProject>,
+    private projectService: ProjectService,
+    private authStore: AuthStore,
+    private errorHandleService: ErrorHandlerService,
+  ) {}
 
   projectForm = new FormGroup<ProjectFormControls>({
     title: new FormControl('', {
@@ -51,5 +57,37 @@ export class CreateProject {
     }
   }
 
-  handleProject() {}
+  handleProject() {
+    if (this.projectForm.invalid) {
+      return;
+    }
+
+    const formValue = this.projectForm.getRawValue();
+    const payload: CreateProjectPayload = {
+      title: formValue.title.trim(),
+      description: formValue.description || null,
+      imageUrl: formValue.imageUrl || null,
+    };
+
+    const workspaceId =
+      (this.zData && this.zData.workspaceId) || this.authStore.snapshot?.currentWorkspace;
+    if (!workspaceId) {
+      const errorMessage = this.errorHandleService.handleStatus(401);
+      console.log(errorMessage);
+      return;
+    }
+
+    this.loading.set(true);
+    this.projectService.createProject(workspaceId, payload).subscribe({
+      next: (res: ProjectResponse) => {
+        this.loading.set(false);
+        this.dialogRef.close(res.data);
+      },
+      error: (err: any) => {
+        this.loading.set(false);
+        const errorMessage = this.errorHandleService.handleStatus(err.status);
+        console.log(errorMessage);
+      },
+    });
+  }
 }
