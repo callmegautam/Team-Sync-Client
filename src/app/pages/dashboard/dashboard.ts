@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { ZardButtonComponent } from '@/shared/components/button/button.component';
 import { ZardDialogService } from '@/shared/components/dialog/dialog.service';
 import { ZardIconComponent } from '@/shared/components/icon/icon.component';
@@ -13,9 +13,11 @@ import { AuthStore } from '@/store/auth';
   templateUrl: './dashboard.html',
 })
 export class Dashboard {
-  private dialogService = inject(ZardDialogService);
-  private router = inject(Router);
-  private authStore = inject(AuthStore);
+  constructor(
+    private dialogService: ZardDialogService,
+    private router: Router,
+    private authStore: AuthStore,
+  ) {}
   readonly activeTab = signal<'projects' | 'tasks' | 'members'>('projects');
 
   openProject() {

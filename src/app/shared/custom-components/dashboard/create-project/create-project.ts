@@ -3,7 +3,7 @@ import { Z_MODAL_DATA } from '@/shared/components/dialog/dialog.service';
 import { ZardDialogRef } from '@/shared/components/dialog/dialog-ref';
 import { ZardAvatarComponent } from '@/shared/components/avatar/avatar.component';
 import { CommonModule } from '@angular/common';
-import { inject, Component, signal } from '@angular/core';
+import { Component, signal, Inject } from '@angular/core';
 import { ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angular/forms';
 import { ZardInputDirective } from '@/shared/components/input/input.directive';
 import { ProjectService } from '@/services/project';
@@ -29,12 +29,13 @@ type ProjectFormControls = {
   templateUrl: './create-project.html',
 })
 export class CreateProject {
-  private zData = inject(Z_MODAL_DATA);
-  private dialogRef = inject<ZardDialogRef<CreateProject>>(ZardDialogRef);
-  private authStore = inject(AuthStore);
-  private errorHandleService = inject(ErrorHandlerService);
-
-  constructor(private projectService: ProjectService) {}
+  constructor(
+    @Inject(Z_MODAL_DATA) private zData: any,
+    private dialogRef: ZardDialogRef<CreateProject>,
+    private projectService: ProjectService,
+    private authStore: AuthStore,
+    private errorHandleService: ErrorHandlerService,
+  ) {}
 
   projectForm = new FormGroup<ProjectFormControls>({
     title: new FormControl('', {
