@@ -1,1 +1,60 @@
-<p>members works!</p>
+<div class="h-full w-full bg-gray-50 flex justify-center rounded-xl p-5">
+  <div class="w-full max-w-4xl">
+    <div class="pb-4">
+      <h1 class="text-3xl font-semibold text-gray-900">Members</h1>
+      <p class="text-sm text-muted-foreground mt-1">
+        Workspace members can view and join all workspace projects and tasks, and create new tasks
+        in the workspace.
+      </p>
+    </div>
+
+    <div class="bg-white rounded-xl border p-6 space-y-8">
+      <div class="flex flex-col gap-3">
+        <label class="text-base font-semibold text-foreground">Invite members to join you</label>
+        <p class="text-sm text-muted-foreground leading-relaxed">
+          Anyone with an invite link can join this free workspace. You can also disable and create a
+          new invite link for this workspace at any time.
+        </p>
+        <div class="mt-2 flex items-center gap-2">
+          <input
+            z-input
+            type="text"
+            zSize="lg"
+            class="w-full text-gray-600 text-base"
+            [value]="inviteLink"
+            readonly
+          />
+          <button
+            type="button"
+            class="h-9 w-9 flex items-center justify-center rounded-xl bg-[#a855f7] text-white hover:bg-[#9333ea] transition"
+            (click)="copyInviteLink()"
+          >
+            <z-icon zType="copy" class="h-4 w-4"></z-icon>
+          </button>
+        </div>
+      </div>
+
+      <div
+        class="flex items-center justify-between rounded-lg border border-border/70 bg-gray-50 px-4 py-4"
+        *ngIf="owner"
+      >
+        <div class="flex items-center gap-3">
+          <div
+            class="flex h-10 w-10 items-center justify-center rounded-full bg-primary/10 text-primary"
+          >
+            <z-icon zType="user" class="h-5 w-5"></z-icon>
+          </div>
+          <div class="flex flex-col">
+            <span class="text-base font-medium text-foreground">{{ owner.name }}</span>
+            <span class="text-sm text-muted-foreground">{{ owner.email }}</span>
+          </div>
+        </div>
+        <span
+          class="px-3 py-1 text-sm font-medium rounded-full border border-border text-muted-foreground"
+        >
+          OWNER
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
