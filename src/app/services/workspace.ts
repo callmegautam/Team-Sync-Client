@@ -7,6 +7,7 @@ import { AuthService } from './auth';
 import {
   CreateWorkspacePayload,
   UpdateWorkspacePayload,
+  Workspace,
   WorkspaceResponse,
   WorkspacesResponse,
 } from '@/types/workspace';

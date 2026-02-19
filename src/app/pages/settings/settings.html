@@ -16,18 +16,23 @@
 
       <div class="flex items-center gap-6">
         <z-avatar
-          zSrc="https://zardui.com/images/avatar/imgs/avatar_image.jpg"
+          [zSrc]="
+            settingForm.get('imageUrl')?.value ||
+            'https://zardui.com/images/avatar/imgs/avatar_image.jpg'
+          "
           zAlt="Workspace Avatar"
           zSize="xl"
           zShape="rounded"
-          class="cursor-pointer"
-          (click)="fileInput.click()"
         />
-        <div class="flex flex-col gap-1">
-          <p class="text-sm text-muted-foreground">Click the icon to upload a new image</p>
-          <p class="text-xs text-muted-foreground">PNG, JPG up to 2MB</p>
+        <div class="flex flex-col w-full">
+          <label class="pb-1 text-sm font-medium">Image upto 2 to 4 kb</label>
+          <input
+            z-input
+            type="text"
+            formControlName="imageUrl"
+            class="file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive flex h-9 w-50% min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium focus-visible:ring-[3px] disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm"
+          />
         </div>
-        <input #fileInput type="file" hidden />
       </div>
 
       <h2 class="text-lg font-medium">Workspace information</h2>

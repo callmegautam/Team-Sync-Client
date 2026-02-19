@@ -58,7 +58,9 @@
           "
         >
           <z-avatar
-            zSrc="https://zardui.com/images/avatar/imgs/avatar_image.jpg"
+            [zSrc]="
+              defaultWorkspace?.imageUrl || 'https://zardui.com/images/avatar/imgs/avatar_image.jpg'
+            "
             zAlt="Zard UI"
             zShape="rounded"
             zSize="sx"

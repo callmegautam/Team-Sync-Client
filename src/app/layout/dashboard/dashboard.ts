@@ -91,6 +91,7 @@ export class DashboardLayout implements OnInit {
           // TODO: add toast message
         }
         this.defaultWorkspace = res.data;
+        console.log(res.data);
         // this.workspaces =
         this.cdr.detectChanges();
       },
@@ -201,6 +202,7 @@ export class DashboardLayout implements OnInit {
         const data: CreateWorkspacePayload = {
           name: formValue.name.trim(),
           description: formValue.description || 'My default description',
+          imageUrl: formValue.imageUrl || 'https://zardui.com/images/avatar/imgs/avatar_image.jpg',
         };
 
         this.workspaceService.createWorkspace(data).subscribe({
@@ -213,6 +215,7 @@ export class DashboardLayout implements OnInit {
             this.changeWorkspace(res.data.id);
             this.router.navigate(['dashboard']);
             this.cdr.detectChanges();
+            console.log(res);
           },
           error: (err) => {
             console.log(err);
