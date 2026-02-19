@@ -146,6 +146,7 @@ export class DashboardLayout implements OnInit {
         const data: ProfilePayload = {
           name: formValue.name,
           username: formValue.username,
+          avatarUrl: formValue.avatarUrl,
         };
 
         this.profileService.updateProfile(data).subscribe({

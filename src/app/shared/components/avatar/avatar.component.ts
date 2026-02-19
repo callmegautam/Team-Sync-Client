@@ -2,6 +2,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   computed,
+  effect,
   input,
   signal,
   ViewEncapsulation,
@@ -119,6 +120,15 @@ export type ZardAvatarStatus = 'online' | 'offline' | 'doNotDisturb' | 'away';
   exportAs: 'zAvatar',
 })
 export class ZardAvatarComponent {
+  constructor() {
+    effect(() => {
+      this.zSrc(); // track zSrc changes
+
+      // Reset image state whenever src changes
+      this.imageLoaded.set(false);
+      this.imageError.set(false);
+    });
+  }
   readonly zStatus = input<ZardAvatarStatus>();
   readonly zShape = input<ZardImageVariants['zShape']>('circle');
   readonly zSize = input<ZardAvatarVariants['zSize'] | number>('default');

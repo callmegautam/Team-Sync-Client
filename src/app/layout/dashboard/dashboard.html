@@ -188,7 +188,7 @@
           class="flex cursor-pointer items-center justify-center rounded-md hover:bg-accent"
         >
           <z-avatar
-            zSrc="https://zardui.com/images/avatar/imgs/avatar_image.jpg"
+            [zSrc]="user?.avatarUrl || 'https://zardui.com/images/avatar/imgs/avatar_image.jpg'"
             zAlt="User Avatar"
             zSize="sm"
           />

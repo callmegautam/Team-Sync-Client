@@ -9,7 +9,7 @@ export interface Profile {
   name: string;
   username: string;
   email: string;
-  avatarUrl?: string | null | undefined;
+  imageUrl?: string | null | undefined;
   currentWorkspace: string;
 }
 
