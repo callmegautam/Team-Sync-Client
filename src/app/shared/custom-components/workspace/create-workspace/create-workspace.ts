@@ -1,3 +1,4 @@
+import { ZardAvatarComponent } from '@/shared/components/avatar/avatar.component';
 import { ZardButtonComponent } from '@/shared/components/button/button.component';
 import { Z_MODAL_DATA } from '@/shared/components/dialog/dialog.service';
 import { ZardInputDirective } from '@/shared/components/input/input.directive';
@@ -8,11 +9,12 @@ import { ReactiveFormsModule, Validators, FormControl, FormGroup } from '@angula
 type WorkspaceFormControls = {
   name: FormControl<string>;
   description: FormControl<string | null>;
+  imageUrl: FormControl<string | null>;
 };
 
 @Component({
   selector: 'app-create-workspace',
-  imports: [ReactiveFormsModule, CommonModule, ZardInputDirective],
+  imports: [ReactiveFormsModule, CommonModule, ZardInputDirective, ZardAvatarComponent],
   templateUrl: './create-workspace.html',
 })
 export class CreateWorkspace {
@@ -38,6 +40,7 @@ export class CreateWorkspace {
         Validators.pattern(/^[a-zA-Z0-9_]+$/),
       ],
     }),
+    imageUrl: new FormControl(''),
   });
 
   ngAfterViewInit(): void {
