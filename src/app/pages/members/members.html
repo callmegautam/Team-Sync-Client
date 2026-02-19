@@ -1,43 +1,60 @@
-<div class="h-full w-full bg-gray-50 flex items-center justify-center rounded-xl px-5">
-  <div class="h-full w-full pb-5">
-    <div class="w-full h-[15%] flex flex-row">
-      <div class="h-full w-[60%] flex flex-col items-start justify-center">
-        <h1 class="text-4xl font-semibold text-gray-900">Members</h1>
-        <p class="mt-1 text-sm text-muted-foreground">
-          Workspace members can view and join all workspace project, tasks and create new task in
-          the workspace
-        </p>
-      </div>
+<div class="h-full w-full bg-gray-50 flex justify-center rounded-xl p-5">
+  <div class="w-full max-w-4xl">
+    <div class="pb-4">
+      <h1 class="text-3xl font-semibold text-gray-900">Members</h1>
+      <p class="text-sm text-muted-foreground mt-1">
+        Workspace members can view and join all workspace projects and tasks, and create new tasks
+        in the workspace.
+      </p>
     </div>
 
-    <div class="max-w-3xl mx-auto px-6 py-8 space-y-8">
-      <section class="space-y-3">
-        <h4 class="text-sm font-medium text-foreground">Add member</h4>
-        <div class="flex flex-col gap-2 sm:flex-row sm:items-center">
+    <div class="bg-white rounded-xl border p-6 space-y-8">
+      <div class="flex flex-col gap-3">
+        <label class="text-base font-semibold text-foreground">Invite members to join you</label>
+        <p class="text-sm text-muted-foreground leading-relaxed">
+          Anyone with an invite link can join this free workspace. You can also disable and create a
+          new invite link for this workspace at any time.
+        </p>
+        <div class="mt-2 flex items-center gap-2">
           <input
+            z-input
             type="text"
-            name="userId"
-            placeholder="User ID"
-            class="h-10 w-full sm:flex-1 rounded-md border border-border bg-input px-3 text-sm text-foreground placeholder:text-muted-foreground"
+            zSize="lg"
+            class="w-full text-gray-600 text-base"
+            [value]="inviteLink"
+            readonly
           />
-          <select
-            name="role"
-            class="h-10 w-full sm:w-40 rounded-md border border-border bg-input px-3 text-sm text-foreground"
-          >
-            <option value="MEMBER">MEMBER</option>
-            <option value="ADMIN">ADMIN</option>
-            <option value="OWNER">OWNER</option>
-          </select>
           <button
             type="button"
-            class="h-10 px-4 rounded-md bg-primary text-primary-foreground hover:opacity-90 transition"
+            class="h-9 w-9 flex items-center justify-center rounded-xl bg-[#a855f7] text-white hover:bg-[#9333ea] transition"
+            (click)="copyInviteLink()"
           >
-            Add
+            <z-icon zType="copy" class="h-4 w-4"></z-icon>
           </button>
         </div>
-      </section>
+      </div>
 
-      <hr class="border-t border-border" />
+      <div
+        class="flex items-center justify-between rounded-lg border border-border/70 bg-gray-50 px-4 py-4"
+        *ngIf="owner"
+      >
+        <div class="flex items-center gap-3">
+          <div
+            class="flex h-10 w-10 items-center justify-center rounded-full bg-primary/10 text-primary"
+          >
+            <z-icon zType="user" class="h-5 w-5"></z-icon>
+          </div>
+          <div class="flex flex-col">
+            <span class="text-base font-medium text-foreground">{{ owner.name }}</span>
+            <span class="text-sm text-muted-foreground">{{ owner.email }}</span>
+          </div>
+        </div>
+        <span
+          class="px-3 py-1 text-sm font-medium rounded-full border border-border text-muted-foreground"
+        >
+          OWNER
+        </span>
+      </div>
     </div>
   </div>
 </div>
