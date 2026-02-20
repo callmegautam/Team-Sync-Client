@@ -2,6 +2,7 @@ import { Profile } from '@/pages/profile/profile';
 import { AuthService } from '@/services/auth';
 import { ErrorHandlerService } from '@/services/error-handler';
 import { ProfileService } from '@/services/profile';
+import { ProjectService } from '@/services/project';
 import { WorkspaceService } from '@/services/workspace';
 import { ZardAvatarComponent } from '@/shared/components/avatar/avatar.component';
 import {
@@ -26,6 +27,7 @@ import { menuItems } from '@/shared/utils/workspace-menu-items';
 import { AuthStore } from '@/store/auth';
 import { User } from '@/types/auth';
 import { ProfilePayload } from '@/types/profile';
+import { Project } from '@/types/project';
 import { CreateWorkspacePayload, Workspace } from '@/types/workspace';
 import { CommonModule } from '@angular/common';
 import { ChangeDetectorRef, Component, OnInit, signal } from '@angular/core';
@@ -60,6 +62,7 @@ export class DashboardLayout implements OnInit {
     private authStore: AuthStore,
     private authService: AuthService,
     private workspaceService: WorkspaceService,
+    private projectService: ProjectService,
     private errorHandleService: ErrorHandlerService,
     private router: Router,
     private sheetService: ZardSheetService,
@@ -73,6 +76,7 @@ export class DashboardLayout implements OnInit {
   defaultWorkspace: Workspace | null | undefined = null;
   workspaces: Workspace[] | undefined = [];
   workspaceMenuItems = menuItems;
+  projects: Project[] = [];
 
   ngOnInit() {
     this.authStore.user$.subscribe((user) => {
@@ -91,6 +95,7 @@ export class DashboardLayout implements OnInit {
           // TODO: add toast message
         }
         this.defaultWorkspace = res.data;
+        console.log(res.data);
         // this.workspaces =
         this.cdr.detectChanges();
       },
@@ -112,6 +117,33 @@ export class DashboardLayout implements OnInit {
     this.workspaceService.currentWorkspace().subscribe({
       next: (res) => {
         this.defaultWorkspace = res.data;
+
+        this.cdr.detectChanges();
+      },
+    });
+  }
+
+  loadProjects(workspaceId: string | undefined) {
+    console.log('Loading projects for workspace:', workspaceId);
+    if (!workspaceId) return;
+
+    this.projectService.getProjects(workspaceId).subscribe({
+      next: (res) => {
+        console.log('Projects response:', res);
+
+        // Directly use res.data (no nested "data")
+        if (res.data && Array.isArray(res.data)) {
+          this.projects = res.data;
+        } else {
+          this.projects = [];
+        }
+
+        console.log('Projects array:', this.projects);
+        this.cdr.detectChanges();
+      },
+      error: (err) => {
+        console.error('Failed to load projects', err);
+        this.projects = [];
         this.cdr.detectChanges();
       },
     });
@@ -120,6 +152,12 @@ export class DashboardLayout implements OnInit {
   navigate(link?: string) {
     if (!link) return;
     this.router.navigate([link]);
+  }
+
+  navigateToProject(project: Project) {
+    if (!project) return;
+
+    this.router.navigate([`/dashboard/projects/${project.id}`]);
   }
 
   toggleSidebar() {
@@ -146,6 +184,7 @@ export class DashboardLayout implements OnInit {
         const data: ProfilePayload = {
           name: formValue.name,
           username: formValue.username,
+          avatarUrl: formValue.avatarUrl,
         };
 
         this.profileService.updateProfile(data).subscribe({
@@ -200,6 +239,7 @@ export class DashboardLayout implements OnInit {
         const data: CreateWorkspacePayload = {
           name: formValue.name.trim(),
           description: formValue.description || 'My default description',
+          imageUrl: formValue.imageUrl || 'https://zardui.com/images/avatar/imgs/avatar_image.jpg',
         };
 
         this.workspaceService.createWorkspace(data).subscribe({
@@ -212,6 +252,7 @@ export class DashboardLayout implements OnInit {
             this.changeWorkspace(res.data.id);
             this.router.navigate(['dashboard']);
             this.cdr.detectChanges();
+            console.log(res);
           },
           error: (err) => {
             console.log(err);

@@ -13,32 +13,7 @@
         (sidebarCollapsed() ? 'gap-1 p-1 pt-4' : 'gap-4 p-4')
       "
     >
-      <!-- <z-sidebar-group>
-        @if (!sidebarCollapsed()) {
-          <z-sidebar-group-label>Main</z-sidebar-group-label>
-        }
-        @for (item of mainMenuItems; track item.label) {
-          <button
-            type="button"
-            z-button
-            zType="ghost"
-            [class]="sidebarCollapsed() ? 'justify-center' : 'justify-start'"
-            [zTooltip]="sidebarCollapsed() ? item.label : ''"
-            zPosition="right"
-          >
-            <z-icon [zType]="item.icon" [class]="sidebarCollapsed() ? '' : 'mr-2'" />
-            @if (!sidebarCollapsed()) {
-              <span>{{ item.label }}</span>
-            }
-          </button>
-        }
-      </z-sidebar-group> -->
       <z-sidebar-group class="h-8 flex flex-row items-center justify-start border-b gap-2">
-        <!-- <z-avatar
-          zSrc="https://zardui.com/images/avatar/imgs/avatar_image.jpg"
-          zAlt="User Avatar"
-          zSize="sm"
-        /> -->
         <z-icon zType="zap" class="w-6 h-6 text-primary ml-1 mr-1"></z-icon>
         <span
           *ngIf="!sidebarCollapsed()"
@@ -47,6 +22,7 @@
           TeamSync
         </span>
       </z-sidebar-group>
+
       <z-sidebar-group>
         <div
           z-menu
@@ -58,7 +34,9 @@
           "
         >
           <z-avatar
-            zSrc="https://zardui.com/images/avatar/imgs/avatar_image.jpg"
+            [zSrc]="
+              defaultWorkspace?.imageUrl || 'https://zardui.com/images/avatar/imgs/avatar_image.jpg'
+            "
             zAlt="Zard UI"
             zShape="rounded"
             zSize="sx"
@@ -75,7 +53,6 @@
                 }}
               </div>
             </div>
-
             <z-icon zType="chevrons-up-down" class="ml-auto" />
           }
         </div>
@@ -104,8 +81,51 @@
           </div>
         </ng-template>
 
+        <!-- Your original @for loop untouched -->
         @for (item of workspaceMenuItems; track item.label) {
-          @if (item.submenu) {
+          @if (item.label === 'Projects') {
+            <!-- Projects button with submenu -->
+            <button
+              type="button"
+              z-button
+              zType="ghost"
+              z-menu
+              [zMenuTriggerFor]="projectsMenu"
+              zPlacement="rightTop"
+              [class]="sidebarCollapsed() ? 'justify-center' : 'justify-start'"
+              [zTooltip]="sidebarCollapsed() ? 'Projects' : null"
+              zPosition="right"
+              (click)="loadProjects(defaultWorkspace?.id)"
+            >
+              <z-icon zType="folder" zSize="xl" [class]="sidebarCollapsed() ? '' : 'mr-2'" />
+              <span *ngIf="!sidebarCollapsed()">Projects</span>
+              <z-icon *ngIf="!sidebarCollapsed()" zType="chevron-right" />
+            </button>
+
+            <ng-template #projectsMenu>
+              <div z-menu-content class="w-48">
+                <button
+                  type="button"
+                  z-menu-item
+                  *ngFor="let project of projects"
+                  (click)="navigateToProject(project)"
+                  class="flex items-center gap-2"
+                >
+                  <z-avatar
+                    *ngIf="project.imageUrl"
+                    [zSrc]="project.imageUrl"
+                    zShape="rounded"
+                    zsize="sm"
+                  />
+                  <z-icon *ngIf="!project.imageUrl" zType="archive" class="w-3 h-3" />
+                  <span>{{ project.name }}</span>
+                </button>
+                <div *ngIf="projects.length === 0" class="p-2 text-xs text-gray-500">
+                  No projects found
+                </div>
+              </div>
+            </ng-template>
+            <!-- } @else if (item.submenu) {
             <button
               type="button"
               z-button
@@ -116,15 +136,16 @@
               [class]="sidebarCollapsed() ? 'justify-center' : 'justify-start'"
               [zTooltip]="sidebarCollapsed() ? item.label : null"
               zPosition="right"
+              (click)="navigate(item.link)"
             >
               <z-icon [zType]="item.icon" zSize="xl" [class]="sidebarCollapsed() ? '' : 'mr-2'" />
               @if (!sidebarCollapsed()) {
                 <span class="flex-1 text-left">{{ item.label }}</span>
                 <z-icon zType="chevron-right" />
               }
-            </button>
+            </button> -->
 
-            <ng-template #submenu>
+            <!-- <ng-template #submenu>
               <div z-menu-content class="w-48">
                 @for (subitem of item.submenu; track subitem.label) {
                   <button type="button" z-menu-item class="flex items-center gap-2">
@@ -133,7 +154,7 @@
                   </button>
                 }
               </div>
-            </ng-template>
+            </ng-template> -->
           } @else {
             <button
               type="button"
@@ -155,7 +176,6 @@
     </nav>
   </z-sidebar>
 
-  <!-- min-h-[200px] is just for the demo purpose to have a minimum height -->
   <z-content class="flex flex-col h-full overflow-hidden">
     <div class="flex items-center h-6 pb-3 px-4">
       <button
@@ -180,6 +200,7 @@
           <span aria-current="page">Components</span>
         </z-breadcrumb-item>
       </z-breadcrumb>
+
       <div class="ml-auto">
         <div
           z-menu
@@ -188,7 +209,7 @@
           class="flex cursor-pointer items-center justify-center rounded-md hover:bg-accent"
         >
           <z-avatar
-            zSrc="https://zardui.com/images/avatar/imgs/avatar_image.jpg"
+            [zSrc]="user?.avatarUrl || 'https://zardui.com/images/avatar/imgs/avatar_image.jpg'"
             zAlt="User Avatar"
             zSize="sm"
           />
@@ -218,10 +239,7 @@
     </div>
 
     <div class="h-[calc(100vh-64px)] py-4">
-      <router-outlet>
-        <!-- <z-skeleton class="h-full w-full" /> -->
-      </router-outlet>
+      <router-outlet></router-outlet>
     </div>
-    <!-- <z-skeleton class="h-16 w-full" /> -->
   </z-content>
 </z-layout>

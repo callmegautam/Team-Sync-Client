@@ -9,6 +9,7 @@ import { ReactiveFormsModule, FormControl, FormGroup, Validators } from '@angula
 type ProfileFormControls = {
   name: FormControl<string>;
   username: FormControl<string>;
+  avatarUrl: FormControl<string>;
 };
 @Component({
   selector: 'app-profile',
@@ -44,12 +45,26 @@ export class Profile {
         Validators.pattern(/^[a-zA-Z0-9_]+$/),
       ],
     }),
+
+    avatarUrl: new FormControl('', {
+      nonNullable: true,
+    }),
   });
+
+  defaultAvatar = 'https://zardui.com/images/avatar/imgs/avatar_image.jpg';
+
+  imagePreview = this.defaultAvatar;
 
   ngOnInit() {
     if (this.zData) {
       this.profileForm.patchValue(this.zData);
     }
+
+    this.imagePreview = this.profileForm.get('avatarUrl')?.value || this.defaultAvatar;
+
+    this.profileForm.get('avatarUrl')?.valueChanges.subscribe((value) => {
+      this.imagePreview = value || this.defaultAvatar;
+    });
 
     this.authService.fetchUser().subscribe({
       next: (res) => {
@@ -60,8 +75,12 @@ export class Profile {
         this.profileForm.patchValue({
           name: res.data.name,
           username: res.data.username,
+          avatarUrl: res.data.avatarUrl || 'https://zardui.com/images/avatar/imgs/avatar_image.jpg',
         });
+
+        this.imagePreview = this.profileForm.get('avatarUrl')?.value || this.defaultAvatar;
       },
+
       error: (err) => {
         console.log(err);
         const errorMessage = this.errorHandleService.handleStatus(err.status);

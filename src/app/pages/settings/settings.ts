@@ -7,7 +7,7 @@ import { CommonModule } from '@angular/common';
 import { Workspace } from '@/types/workspace';
 import { WorkspaceService } from '@/services/workspace';
 import { ProfileService } from '@/services/profile';
-import { tap, switchMap } from 'rxjs';
+import { tap, switchMap, from } from 'rxjs';
 import { AuthService } from '@/services/auth';
 import { User } from '@/types/auth';
 import { Router } from '@angular/router';
@@ -15,6 +15,7 @@ import { Navigation } from '@/shared/utils/navigation';
 import { AuthStore } from '@/store/auth';
 
 type SettingFormControls = {
+  imageUrl: FormControl<string>;
   name: FormControl<string>;
   description: FormControl<string>;
   inviteCode: FormControl<string>;
@@ -43,6 +44,7 @@ export class Settings implements OnInit {
   ) {}
 
   settingForm = new FormGroup<SettingFormControls>({
+    imageUrl: new FormControl('', { nonNullable: true }),
     name: new FormControl('', {
       nonNullable: true,
       validators: [Validators.required, Validators.minLength(2), Validators.maxLength(50)],
@@ -76,14 +78,30 @@ export class Settings implements OnInit {
           return;
         }
         this.workspace = res.data;
+        this.settingForm.patchValue({
+          imageUrl: res.data.imageUrl || '',
+          name: res.data.name || '',
+          description: res.data.description || '',
+          inviteCode: res.data.inviteCode || '',
+        });
         this.cdr.detectChanges();
       },
     });
   }
 
   handleSetting() {
-    this.workspaceService.updateWorkspace(this.settingForm.getRawValue()).subscribe();
-    console.log(this.settingForm.getRawValue());
+    const data = this.settingForm.getRawValue();
+    console.log('Updating workspace with:', data);
+
+    this.workspaceService.updateWorkspace(data).subscribe({
+      next: () => {
+        console.log('Workspace updated');
+        this.workspaceService.notifyWorkspaceChanged();
+      },
+      error: (err) => {
+        console.log('Update error:', err);
+      },
+    });
   }
 
   deleteWorkspace() {
