@@ -46,11 +46,10 @@ export const routes: Routes = [
         loadComponent: () => import('./pages/settings/settings').then((m) => m.Settings),
         canActivate: [AuthGuard],
       },
-      //   {
-      //     path: 'projects',
-      //     loadComponent: () =>
-      //       import('./pages/client/dashboard/projects/projects').then((m) => m.Projects),
-      //   },
+      {
+        path: 'projects/:projectId',
+        loadComponent: () => import('./pages/project/project').then((m) => m.Project),
+      },
     ],
   },
   {
