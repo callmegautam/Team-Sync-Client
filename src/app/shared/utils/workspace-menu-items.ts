@@ -1,10 +1,14 @@
 import { ZardIcon } from '../components/icon/icons';
 
+interface ProjectSubMenu {
+  label: string;
+  imageUrl: string; // image for submenu item
+}
 interface MenuItem {
   icon: ZardIcon;
   label: string;
   link?: string;
-  submenu?: { label: string; icon: ZardIcon }[];
+  projectsMenu?: ProjectSubMenu[];
 }
 
 export const menuItems: MenuItem[] = [
@@ -12,11 +16,7 @@ export const menuItems: MenuItem[] = [
   {
     icon: 'folder',
     label: 'Projects',
-    submenu: [
-      { icon: 'folder', label: 'Design System' },
-      { icon: 'folder', label: 'Mobile App' },
-      { icon: 'folder', label: 'Website' },
-    ],
+    projectsMenu: [],
   },
   { icon: 'circle-check', label: 'Tasks', link: 'dashboard/tasks' },
   { icon: 'users', label: 'Members', link: 'dashboard/members' },

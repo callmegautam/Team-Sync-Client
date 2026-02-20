@@ -17,3 +17,7 @@ export interface ProjectResponse {
   data?: Project;
   error?: string;
 }
+export interface ProjectListResponse {
+  data: Project[];
+  error?: string;
+}
